@@ -21,6 +21,9 @@ export default defineConfig(({ mode }) => {
         release: manifest.version,
       },
     },
+    build: {
+      minify: false,
+    },
     plugins: [react(), crx({ manifest })],
     css: {
       postcss: {
