@@ -1,45 +1,9 @@
-import { crx, defineManifest } from '@crxjs/vite-plugin';
+import { crx } from '@crxjs/vite-plugin';
 import react from '@vitejs/plugin-react';
 import postcssNested from 'postcss-nested';
 import { defineConfig } from 'vite';
 
-// import manifest from './public/manifest.json';
-
-const manifest = defineManifest({
-  manifest_version: 3,
-  name: 'Notion Search',
-  description: '__MSG_DESCRIPTION__',
-  default_locale: 'en',
-  version: '1.3.5',
-  options_page: 'options.html',
-  action: {
-    default_icon: 'images/icon38.png',
-    default_popup: 'search.html',
-  },
-  background: {
-    service_worker: '/src/background/main.ts',
-  },
-  permissions: ['storage', 'unlimitedStorage', 'commands'],
-  host_permissions: ['https://www.notion.so/*'],
-  commands: {
-    _execute_action: {
-      suggested_key: {
-        default: 'Ctrl+Shift+N',
-        mac: 'MacCtrl+Shift+N',
-      },
-      description: 'Open the popup',
-    },
-    'open-search-page': {
-      description: 'Open the search page in new a tab',
-    },
-  },
-  icons: {
-    '16': 'images/icon16.png',
-    '32': 'images/icon32.png',
-    '48': 'images/icon48.png',
-    '128': 'images/icon128.png',
-  },
-});
+import manifest from './manifest.json';
 
 export default defineConfig(({ mode }) => {
   const isDevelopment = mode === 'development';
