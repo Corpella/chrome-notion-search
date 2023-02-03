@@ -1,7 +1,9 @@
 import { crx } from '@crxjs/vite-plugin';
+import legacy from '@vitejs/plugin-legacy';
 import react from '@vitejs/plugin-react';
 import postcssNested from 'postcss-nested';
 import { defineConfig } from 'vite';
+// import { visualizer } from 'rollup-plugin-visualizer';
 
 import manifest from './manifest.json';
 
@@ -30,7 +32,7 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
-    plugins: [react(), crx({ manifest })],
+    plugins: [legacy(), react(), crx({ manifest })],
     css: {
       postcss: {
         plugins: [postcssNested],
