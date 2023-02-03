@@ -1,2 +1,2 @@
-public/css/**/*
-public/js/**/*
+/public/css/**/*
+/dist/
