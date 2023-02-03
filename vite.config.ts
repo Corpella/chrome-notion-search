@@ -3,9 +3,11 @@ import legacy from '@vitejs/plugin-legacy';
 import react from '@vitejs/plugin-react';
 import postcssNested from 'postcss-nested';
 import { defineConfig } from 'vite';
+import manifest from './manifest.json';
+import { version } from './package.json';
 // import { visualizer } from 'rollup-plugin-visualizer';
 
-import manifest from './manifest.json';
+manifest.version = version;
 
 export default defineConfig(({ mode }) => {
   const isDevelopment = mode === 'development';
@@ -20,7 +22,7 @@ export default defineConfig(({ mode }) => {
         dsn: isDevelopment
           ? 'https://cba3c32ae1404f56a39f5cb4102beb64@o49171.ingest.sentry.io/4504401197989888'
           : 'https://f3a64ab117364c0cab0e2edf79c51113@o49171.ingest.sentry.io/4504401230823424',
-        release: manifest.version,
+        release: version,
       },
     },
     build: {
