@@ -7,7 +7,7 @@
   "options_page": "options.html",
   "action": {
     "default_icon": "images/icon38.png",
-    "default_popup": "search.html"
+    "default_popup": "search.html?popup"
   },
   "background": {
     "service_worker": "/src/background/main.ts"
