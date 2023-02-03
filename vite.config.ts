@@ -23,6 +23,12 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       minify: false,
+      rollupOptions: {
+        input: {
+          debug: 'debug.html',
+          'helps/empty-search-results': 'helps/empty-search-results.html',
+        },
+      },
     },
     plugins: [react(), crx({ manifest })],
     css: {
