@@ -6,17 +6,18 @@
     "preview": "vite preview",
     "clean": "rimraf dist out.zip;",
     "test": "jest",
-    "eslint": "eslint './{src,test}/**/*.{ts,tsx}'",
-    "eslint:fix": "eslint --fix './{src,test}/**/*.{ts,tsx}'",
-    "prettier": "prettier --check .",
-    "prettier:fix": "prettier --write .",
-    "stylelint": "stylelint './src/**/*.pcss'",
-    "stylelint:fix": "stylelint --fix './src/**/*.pcss'",
-    "lint": "run-p eslint prettier stylelint",
-    "lint:fix": "run-p eslint:fix prettier:fix stylelint:fix",
     "release": "yarn install && yarn run build && zip -r out.zip dist",
-    "check-ngword": "if git grep -rE \"console\\.(log|dir)|FIXME\" -- ':!package.json'; then exit 1; else echo \"All good\"; fi",
-    "check-all": "run-p test lint check-ngword"
+    "lint:eslint": "eslint './{src,test}/**/*.{ts,tsx}'",
+    "lint-fix:eslint": "eslint --fix './{src,test}/**/*.{ts,tsx}'",
+    "lint:prettier": "prettier --check .",
+    "lint-fix:prettier": "prettier --write .",
+    "lint:stylelint": "stylelint './src/**/*.pcss'",
+    "lint-fix:stylelint": "stylelint --fix './src/**/*.pcss'",
+    "lint": "run-p -c lint:*",
+    "lint-fix": "run-p -c lint-fix:*",
+    "check:types": "tsc --noEmit",
+    "check:ngword": "if git grep -rE \"console\\.(log|dir)|FIXME\" -- ':!package.json'; then exit 1; else echo \"All good\"; fi",
+    "check": "run-p -c test lint check:*"
   },
   "resolutions": {
     "@types/react": "^18.0.26"

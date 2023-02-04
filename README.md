@@ -24,4 +24,3 @@ https://github.com/Cside/notion-search/releases
 ## License
 
 [The MIT License](/LICENSE).
-
