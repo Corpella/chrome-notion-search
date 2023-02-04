@@ -11,7 +11,8 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "allowJs": true
+    "resolveJsonModule": true,
+    "noEmit": true
   },
   "include": ["./src", "./test"]
 }
