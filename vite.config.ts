@@ -1,5 +1,4 @@
 import { crx } from '@crxjs/vite-plugin';
-import legacy from '@vitejs/plugin-legacy';
 import react from '@vitejs/plugin-react';
 import postcssNested from 'postcss-nested';
 import { defineConfig } from 'vite';
@@ -34,7 +33,7 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
-    plugins: [legacy(), react(), crx({ manifest })],
+    plugins: [react(), crx({ manifest })],
     css: {
       postcss: {
         plugins: [postcssNested],
