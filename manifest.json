@@ -9,7 +9,7 @@
     "default_popup": "search.html?popup"
   },
   "background": {
-    "service_worker": "/src/background/main.ts",
+    "service_worker": "src/background/main.ts",
     "type": "module"
   },
   "permissions": ["storage", "unlimitedStorage", "commands"],
