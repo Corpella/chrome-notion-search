@@ -20,3 +20,8 @@ yarn run build
 ## Release Notes
 
 https://github.com/Cside/notion-search/releases
+
+## License
+
+[The MIT License](/LICENSE).
+
