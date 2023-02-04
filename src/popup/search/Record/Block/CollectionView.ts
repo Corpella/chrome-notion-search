@@ -9,7 +9,7 @@ export const isCollectionView = (
 };
 
 // combines collection view page and collection view
-export class BlockCollectionView extends Block {
+export class CollectionViewBlock extends Block {
   collection?: Collection;
   constructor({
     block,
