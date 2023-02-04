@@ -8,30 +8,26 @@ import { version } from './package.json';
 
 manifest.version = version;
 
-export default defineConfig(({ mode }) => {
-  const isDevelopment = mode === 'development';
-
-  return {
-    define: {
-      IS_SENTRY_ENABLED:
-        (process.env.IS_SENTRY_ENABLED &&
-          JSON.parse(process.env.IS_SENTRY_ENABLED)) ??
-        true,
-    },
-    build: {
-      minify: false,
-      rollupOptions: {
-        input: {
-          debug: 'debug.html',
-          'helps/empty-search-results': 'helps/empty-search-results.html',
-        },
+export default defineConfig({
+  define: {
+    IS_SENTRY_ENABLED:
+      (process.env.IS_SENTRY_ENABLED &&
+        JSON.parse(process.env.IS_SENTRY_ENABLED)) ??
+      true,
+  },
+  build: {
+    minify: false,
+    rollupOptions: {
+      input: {
+        debug: 'debug.html',
+        'helps/empty-search-results': 'helps/empty-search-results.html',
       },
     },
-    plugins: [react(), crx({ manifest })],
-    css: {
-      postcss: {
-        plugins: [postcssNested],
-      },
+  },
+  plugins: [react(), crx({ manifest })],
+  css: {
+    postcss: {
+      plugins: [postcssNested],
     },
-  };
+  },
 });
