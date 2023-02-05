@@ -38,8 +38,7 @@ const getDir = (
 
     return getDir(paths, parent.id, parent.tableType, recordMap);
   } catch (error) {
-    // parent_id が生えてることはまず無い(エラーのほぼ全てはクラス生成前のバリデーションなので)
-    // ので、これ以上親は探索しない
+    // Mostly parent_id are undefined, so don't look up any more parents
     console.error(error, {
       id,
       tableType,
@@ -84,9 +83,9 @@ const buildIcon = (icon: string | undefined, id: string) => {
   }
 };
 
-// NOTE: ログ指針
-//  - 一応 record/block を吐いているが、ほとんどのケースで undefined なので、
-//    各モジュールの内部で record/block を吐いている必要がある
+// NOTE: Log guideline:
+//   Most of the blocks/records recorded directly under search() are undefined,
+//   so record/block must be logged inside each Record module
 export const search = async ({
   query,
   sortBy,
@@ -103,7 +102,6 @@ export const search = async ({
   if (!workspaceId) throw new Error('spaceId is empty');
   const trimmedQuery = query.trim();
 
-  // このへんのテストは、UT じゃなくてフォーム含めて一気通貫で見ないと意味ない氣がする
   let sortOptions = {};
   switch (sortBy) {
     case SORT_BY.RELEVANCE:
@@ -153,8 +151,8 @@ export const search = async ({
   AbortsController.abortPast(current);
 
   // Known issue:
-  //   tab mode の場合、別タブで cookie を set しても、
-  //   axios のキャッシュが残る
+  //   In tab mode, the axios cache remains
+  //   even if the cookie is set in another tab
   if (query === '' && res.results.length === 0)
     throw new EmptySearchResultsError();
 
@@ -210,7 +208,7 @@ export const search = async ({
 
   if (savesToStorage) {
     const data: SearchResultCache = { query, searchResult };
-    // set に失敗しても致命的ではない (前回の検索結果が表示されなくなるだけ) なので、エラーハンドリングしない
+    // Failing to set is not fatal, so no error handling
     storage.set({
       [`${workspaceId}-${STORAGE_KEY.LAST_SEARCHED}`]: data,
     });
