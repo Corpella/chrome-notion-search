@@ -189,6 +189,10 @@ export const search = async ({
         }
       }
 
+      // https://github.com/Cside/notion-search/issues/36
+      if (result.block === undefined)
+        throw new TypeError(`item.block is undefined`);
+
       items.push(result);
     } catch (error) {
       console.error(error, {
