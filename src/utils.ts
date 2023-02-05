@@ -9,3 +9,5 @@ export const alertError = (message: string, error: unknown) => {
   }
   alert(message);
 };
+
+export const isPopup = () => new URL(location.href).searchParams.has('popup');

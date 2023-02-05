@@ -1,8 +1,8 @@
 import { act, cleanup, render } from '@testing-library/react';
 import React from 'react';
-
 import { $, userEventSetup } from '../../../../test/helpers';
 import { axios } from '../../../axios';
+import * as utils from '../../../utils';
 import { SORT_BY } from '../../constants';
 import { BLOCK_TYPE, TABLE_TYPE } from '../../search/Record/constants';
 import * as emptySearchResultsCallout from '../Callout/EmptySearchResults';
@@ -45,10 +45,7 @@ test('filter options', async () => {
 
   await renderAndWaitEffect(
     <QueryParamProvider>
-      <SearchContainer
-        isPopup={false}
-        workspace={{ id: 'space-id', name: 'space-name' }}
-      />
+      <SearchContainer workspace={{ id: 'space-id', name: 'space-name' }} />
     </QueryParamProvider>,
   );
 
@@ -86,10 +83,7 @@ test('sort options', async () => {
 
   await renderAndWaitEffect(
     <QueryParamProvider>
-      <SearchContainer
-        isPopup={false}
-        workspace={{ id: 'space-id', name: 'space-name' }}
-      />
+      <SearchContainer workspace={{ id: 'space-id', name: 'space-name' }} />
     </QueryParamProvider>,
   );
 
@@ -176,17 +170,15 @@ describe('gets last search result', () => {
   });
 
   test.each([
-    { input: false, expected: '' },
-    { input: true, expected: query },
+    { input: { isPopup: false }, expected: '' },
+    { input: { isPopup: true }, expected: query },
   ])('isPopup: $input', async ({ input, expected }) => {
     const container = (
       <QueryParamProvider>
-        <SearchContainer
-          isPopup={input}
-          workspace={{ id: 'space-id', name: 'space-name' }}
-        />
+        <SearchContainer workspace={{ id: 'space-id', name: 'space-name' }} />
       </QueryParamProvider>
     );
+    jest.spyOn(utils, 'isPopup').mockReturnValue(input.isPopup);
 
     const { unmount } = await act(() => renderAndWaitEffect(container));
     let inputElem = $<HTMLInputElement>('.query');

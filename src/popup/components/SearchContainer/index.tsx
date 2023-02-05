@@ -1,5 +1,5 @@
 import { AxiosError, CanceledError } from 'axios';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   BooleanParam,
   StringParam,
@@ -7,7 +7,7 @@ import {
   withDefault,
 } from 'use-query-params';
 import { storage } from '../../../storage';
-import { alertError } from '../../../utils';
+import { alertError, isPopup as isPopupFn } from '../../../utils';
 import { SORT_BY, STORAGE_KEY } from '../../constants';
 import { debouncedSearch, EmptySearchResultsError } from '../../search';
 import { EmptySearchResultsCallout } from '../Callout/EmptySearchResults';
@@ -18,13 +18,7 @@ import { Footer } from './../Footer';
 import { Items } from './../Items';
 import './styles.pcss';
 
-export const SearchContainer = ({
-  isPopup,
-  workspace,
-}: {
-  isPopup: boolean;
-  workspace: Workspace;
-}) => {
+export const SearchContainer = ({ workspace }: { workspace: Workspace }) => {
   const [query, setQuery] = useQueryParam(
     'query',
     withDefault(StringParam, ''),
@@ -48,6 +42,7 @@ export const SearchContainer = ({
   const trimmedQuery = query.trim();
   const hasQuery = trimmedQuery.length > 0;
   const isFirstRendering = useRef(true);
+  const isPopup = useMemo(isPopupFn, []);
 
   // search
   useEffect(() => {
@@ -115,13 +110,8 @@ export const SearchContainer = ({
           setFilterOnlyTitles={setFilterOnlyTitles}
         />
         <Sort sortBy={sortBy} setSortBy={setSortBy} />
-        <Items
-          items={searchResult?.items || []}
-          isPopup={isPopup}
-          query={usedQuery}
-        />
+        <Items items={searchResult?.items || []} query={usedQuery} />
         <Footer
-          isPopup={isPopup}
           total={searchResult?.total || 0}
           showsSummary={!!searchResult && usedQuery.trim().length > 0}
         />

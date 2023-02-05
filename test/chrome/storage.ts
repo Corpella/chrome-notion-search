@@ -1,13 +1,11 @@
 let store = {};
 type Key = keyof typeof store;
 
-// 全部の引数パターン実装するのは果てしなくだるいので、spy は諦めた
-
-export const storage = {
+const storage = {
   clear: async () => {
     store = {};
   },
-  // get multi は今のところ使ってないので未実装
+  // get-multi is not implemented yet
   get: async (key?: string) => {
     return key === undefined
       ? store
@@ -22,3 +20,19 @@ export const storage = {
     store = { ...store, ...value };
   },
 };
+
+let OrigLocalStorage: chrome.storage.LocalStorageArea;
+
+beforeAll(() => {
+  // spy is very hard because there are so many argument types
+  OrigLocalStorage = global.chrome.storage.local;
+  global.chrome.storage.local = storage as chrome.storage.LocalStorageArea;
+});
+
+beforeEach(() => {
+  storage.clear();
+});
+
+afterAll(() => {
+  global.chrome.storage.local = OrigLocalStorage;
+});

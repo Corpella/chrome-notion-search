@@ -1,15 +1,14 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { isPopup as isPopupFn } from '../../../utils';
 import { SEARCH_LIMIT } from '../../constants';
 import './styles.pcss';
 
 export const Footer = ({
   total,
   showsSummary,
-  isPopup,
 }: {
   total: number;
   showsSummary: boolean;
-  isPopup: boolean;
 }) => {
   const handleClickSetting = (
     event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
@@ -25,6 +24,7 @@ export const Footer = ({
     chrome.tabs.create({ url: url.toString() });
     event.preventDefault();
   };
+  const isPopup = useMemo(isPopupFn, []);
 
   return (
     <div className="footer">
