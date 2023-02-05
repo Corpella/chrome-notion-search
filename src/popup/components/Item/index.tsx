@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { isPopup as isPopupFn } from '../../../utils';
 import { ICON_TYPE } from '../../constants';
 import './styles.pcss';
 import { setHighlight } from './utils';
@@ -7,7 +8,6 @@ const getType = (block: SearchApi.Block) =>
   'debug-block-' + block.type.replaceAll('_', '-');
 
 export default function Item({
-  isPopup,
   query,
   icon,
   title,
@@ -15,10 +15,7 @@ export default function Item({
   dirs,
   text,
   block,
-}: {
-  isPopup: boolean;
-  query: string;
-} & Item) {
+}: { query: string } & Item) {
   const iconElement =
     icon.type === ICON_TYPE.EMOJI ? (
       <>{icon.value}</>
@@ -30,6 +27,7 @@ export default function Item({
         src={icon.value}
       />
     );
+  const isPopup = useMemo(isPopupFn, []);
 
   const dirElements = dirs.length > 0 && (
     <p className="dirs">
