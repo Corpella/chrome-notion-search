@@ -4,10 +4,6 @@ declare namespace SearchApi {
   type TableType = valueOf<
     typeof import('../../popup/search/Record/constants').TABLE_TYPE
   >;
-  type TableTypeWithoutWorkspace = Exclude<
-    TableType,
-    typeof import('../../popup/search/Record/constants').TABLE_TYPE.WORKSPACE
-  >;
 
   type BlockType = valueOf<
     typeof import('../../popup/search/Record/constants').BLOCK_TYPE

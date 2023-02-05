@@ -1,13 +1,13 @@
 let store = {};
 type Key = keyof typeof store;
 
-// 全部の引数パターン実装するのは果てしなくだるいので、spy は諦めた
+// spy is very hard because there are so many argument types
 
 export const storage = {
   clear: async () => {
     store = {};
   },
-  // get multi は今のところ使ってないので未実装
+  // get-multi is not implemented yet
   get: async (key?: string) => {
     return key === undefined
       ? store

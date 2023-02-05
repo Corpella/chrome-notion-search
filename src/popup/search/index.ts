@@ -18,6 +18,72 @@ export class EmptySearchResultsError extends Error {}
 
 const AbortsController = new AbortControllers();
 
+const getDir = (
+  paths: Dir[],
+  id: string,
+  tableType: SearchApi.TableType,
+  recordMap: SearchApi.RecordMap,
+): Dir[] => {
+  let record: Record | undefined;
+  try {
+    record = createRecord(id, tableType, recordMap);
+    if (record.canBeDir())
+      paths.push({
+        title: record.title || TEXT_NO_TITLE,
+        record: record.record,
+      });
+
+    const parent = record.parent;
+    if (parent.isWorkspace) return paths;
+
+    return getDir(paths, parent.id, parent.tableType, recordMap);
+  } catch (error) {
+    // parent_id が生えてることはまず無い(エラーのほぼ全てはクラス生成前のバリデーションなので)
+    // ので、これ以上親は探索しない
+    console.error(error, {
+      id,
+      tableType,
+      record: JSON.stringify(record),
+    });
+    console.info({ record, recordMap });
+    return paths;
+  }
+};
+
+const buildIcon = (icon: string | undefined, id: string) => {
+  if (!icon)
+    return {
+      type: ICON_TYPE.IMAGE,
+      value: chrome.runtime.getURL('./images/page.svg'),
+    };
+
+  if (icon.startsWith('http')) {
+    // uploaded by user
+    return {
+      type: ICON_TYPE.IMAGE,
+      value:
+        `${NOTION_BASE_URL}/image/${encodeURIComponent(icon)}?` +
+        new URLSearchParams({
+          table: 'block',
+          id,
+          width: String(ICON_WIDTH),
+        }),
+    };
+  } else if (icon.startsWith('/')) {
+    // custom svg
+    return {
+      type: ICON_TYPE.IMAGE,
+      value: `${NOTION_BASE_URL}${icon}`,
+    };
+  } else {
+    // emoji or others. TODO: detect others
+    return {
+      type: ICON_TYPE.EMOJI,
+      value: icon,
+    };
+  }
+};
+
 // NOTE: ログ指針
 //  - 一応 record/block を吐いているが、ほとんどのケースで undefined なので、
 //    各モジュールの内部で record/block を吐いている必要がある
@@ -97,41 +163,6 @@ export const search = async ({
   for (const item of res.results) {
     let block: Block | undefined = undefined;
 
-    const getDir = (
-      paths: Dir[],
-      id: string,
-      tableType: SearchApi.TableTypeWithoutWorkspace,
-    ): Dir[] => {
-      let record: Record | undefined;
-      try {
-        record = createRecord(id, tableType, recordMap);
-        if (record.canBeDir())
-          paths.push({
-            title: record.title || TEXT_NO_TITLE,
-            record: record.record,
-          });
-
-        const parent = record.parent;
-        if (parent.isWorkspace) return paths;
-
-        return getDir(
-          paths,
-          parent.id,
-          parent.tableType as SearchApi.TableTypeWithoutWorkspace,
-        );
-      } catch (error) {
-        // parent_id が生えてることはまず無い(エラーのほぼ全てはクラス生成前のバリデーションなので)
-        // ので、これ以上親は探索しない
-        console.error(error, {
-          id,
-          tableType,
-          record: JSON.stringify(record),
-        });
-        console.info({ record, recordMap });
-        return paths;
-      }
-    };
-
     const id = item.id;
 
     try {
@@ -146,48 +177,16 @@ export const search = async ({
           : getDir(
               [],
               block.parent.id,
-              block.parent.tableType as SearchApi.TableTypeWithoutWorkspace,
+              block.parent.tableType,
+              recordMap,
             ).reverse(),
         url:
           `${NOTION_BASE_URL}/${id.replaceAll('-', '')}` +
           (item.highlightBlockId
             ? `#${item.highlightBlockId.replaceAll('-', '')}`
             : ''),
-        icon: {
-          type: ICON_TYPE.IMAGE,
-          value: chrome.runtime.getURL('./images/page.svg'),
-        },
+        icon: buildIcon(block.icon, id),
       };
-
-      const icon = block.icon;
-      if (icon) {
-        if (icon.startsWith('http')) {
-          // uploaded by user
-          result.icon = {
-            type: ICON_TYPE.IMAGE,
-            value:
-              `${NOTION_BASE_URL}/image/${encodeURIComponent(icon)}?` +
-              new URLSearchParams({
-                table: 'block',
-                id,
-                width: String(ICON_WIDTH),
-              }),
-          };
-        } else if (icon.startsWith('/')) {
-          // custom svg
-          result.icon = {
-            type: ICON_TYPE.IMAGE,
-            value: `${NOTION_BASE_URL}${icon}`,
-          };
-        } else {
-          // NOTE: 本気でやるなら、ここで絵文字以外のものが来た場合にエラーにする
-          // emoji は length 2 なので判定が単純ではない
-          result.icon = {
-            type: ICON_TYPE.EMOJI,
-            value: icon,
-          };
-        }
-      }
 
       // https://github.com/Cside/notion-search/issues/36
       if (result.block === undefined)

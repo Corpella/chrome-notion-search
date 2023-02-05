@@ -160,30 +160,38 @@ const PARENT_BLOCK: SearchApi.Block = {
 describe('gets an icon', () => {
   test.each([
     {
-      name: ' image (^http)',
+      name: 'default',
+      input: undefined,
+      expected: () => ({
+        type: ICON_TYPE.IMAGE,
+        value: chrome.runtime.getURL('./images/page.svg'),
+      }),
+    },
+    {
+      name: 'image (^http)',
       input: 'https://exmaple.com/icon.svg',
-      expected: {
+      expected: () => ({
         type: ICON_TYPE.IMAGE,
         value: `${NOTION_BASE_URL}/image/${encodeURIComponent(
           'https://exmaple.com/icon.svg',
         )}?table=block&id=${BLOCK_ID}&width=40`,
-      },
+      }),
     },
     {
       name: 'image (^/)',
       input: '/icon.svg',
-      expected: {
+      expected: () => ({
         type: ICON_TYPE.IMAGE,
         value: `${NOTION_BASE_URL}/icon.svg`,
-      },
+      }),
     },
     {
       name: 'emoji',
       input: '👌',
-      expected: {
+      expected: () => ({
         type: ICON_TYPE.EMOJI,
         value: '👌',
-      },
+      }),
     },
   ])('$name', async ({ input, expected }) => {
     jest.spyOn(Block.prototype, 'icon', 'get').mockReturnValue(input);
@@ -213,6 +221,6 @@ describe('gets an icon', () => {
           workspaceId: 'spaceId',
         })
       ).items[0].icon,
-    ).toEqual(expected);
+    ).toEqual(expected());
   });
 });
