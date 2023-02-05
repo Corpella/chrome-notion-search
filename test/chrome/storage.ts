@@ -1,9 +1,7 @@
 let store = {};
 type Key = keyof typeof store;
 
-// spy is very hard because there are so many argument types
-
-export const storage = {
+const storage = {
   clear: async () => {
     store = {};
   },
@@ -22,3 +20,19 @@ export const storage = {
     store = { ...store, ...value };
   },
 };
+
+let OrigLocalStorage: chrome.storage.LocalStorageArea;
+
+beforeAll(() => {
+  // spy is very hard because there are so many argument types
+  OrigLocalStorage = global.chrome.storage.local;
+  global.chrome.storage.local = storage as chrome.storage.LocalStorageArea;
+});
+
+beforeEach(() => {
+  storage.clear();
+});
+
+afterAll(() => {
+  global.chrome.storage.local = OrigLocalStorage;
+});
