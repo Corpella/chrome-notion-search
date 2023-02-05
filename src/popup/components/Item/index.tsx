@@ -53,10 +53,10 @@ export default function Item({
                 {dirs
                   .map<React.ReactNode>((dir) => (
                     <span
-                      key={dir.block.id}
+                      key={dir.record.id}
                       className={getType(block)}
                       onClick={(event) => {
-                        console.info(dir.block);
+                        console.info(dir.record);
                         event.stopPropagation();
                       }}
                     >

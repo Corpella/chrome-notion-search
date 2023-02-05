@@ -1,6 +1,6 @@
 type Dir = {
   title: string;
-  block: SearchApi.Block; // workspace, collection は dir から除外してるので
+  record: SearchApi.Record;
 };
 
 type Item = {

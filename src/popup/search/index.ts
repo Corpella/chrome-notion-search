@@ -108,7 +108,7 @@ export const search = async ({
         if (record.canBeDir())
           paths.push({
             title: record.title || TEXT_NO_TITLE,
-            block: record.record as SearchApi.Block, // Collection は canBeDir == false なので問題ない
+            record: record.record,
           });
 
         const parent = record.parent;
