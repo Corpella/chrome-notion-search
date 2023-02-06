@@ -19,7 +19,7 @@ yarn run build
 
 ## Release Notes
 
-https://github.com/Cside/notion-search/releases
+[/releases](https://github.com/Cside/notion-search/releases)
 
 ## License
 
