@@ -7,6 +7,15 @@ import manifest from './manifest.json';
 import { version } from './package.json';
 // import { visualizer } from 'rollup-plugin-visualizer';
 
+const getHtmlFiles = (dir: string) => {
+  return Object.fromEntries(
+    fs.readdirSync(dir).map((html) => {
+      html = `${dir}/${html}`;
+      return [html.replace(/\.html$/, ''), html];
+    }),
+  );
+};
+
 manifest.version = version;
 
 export default defineConfig({
@@ -21,6 +30,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         debug: 'debug.html',
+        ...getHtmlFiles('helps'),
+        ...getHtmlFiles('notices'),
       },
     },
   },

@@ -27,9 +27,7 @@ chrome.runtime.onInstalled.addListener(({ reason, previousVersion }) => {
       LESS_THAN
     )
       chrome.tabs.create({
-        url: chrome.runtime.getURL(
-          `./notices/${KEYBOARD_SHORTCUT_CHANGED_VERSION}.html`,
-        ),
+        url: chrome.runtime.getURL(`./notices/2_0_0.html`),
       });
   }
 });
