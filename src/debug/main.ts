@@ -10,4 +10,4 @@ console.info({
 });
 
 const elem = document.getElementById('result');
-if (elem) elem.innerText = JSON.stringify(block, null, 2);
+if (elem) elem.textContent = '\n' + JSON.stringify(block, null, 2);

@@ -9,7 +9,7 @@
     "default_popup": "search.html?popup"
   },
   "background": {
-    "service_worker": "/src/background/main.ts",
+    "service_worker": "src/background/main.ts",
     "type": "module"
   },
   "permissions": ["storage", "unlimitedStorage", "commands"],
@@ -17,8 +17,8 @@
   "commands": {
     "_execute_action": {
       "suggested_key": {
-        "default": "Ctrl+Shift+N",
-        "mac": "MacCtrl+Shift+N"
+        "default": "Ctrl+Shift+P",
+        "mac": "MacCtrl+Shift+P"
       },
       "description": "Open the popup"
     },
