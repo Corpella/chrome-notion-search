@@ -1,4 +1,4 @@
-import { BlockNotCollectionView } from '../Record/Block/NotCollectionView';
+import { BasicBlock } from '../Record/Block/Basic';
 import { BLOCK_TYPE, TABLE_TYPE } from './constants';
 
 const BLOCK: SearchApi.Block = {
@@ -9,7 +9,7 @@ const BLOCK: SearchApi.Block = {
 };
 
 describe('parent', () => {
-  const parent = new BlockNotCollectionView({
+  const parent = new BasicBlock({
     block: BLOCK,
   }).parent;
 
@@ -28,7 +28,7 @@ describe('parent', () => {
       { input: TABLE_TYPE.WORKSPACE, expected: true },
     ])('$input → $expected', ({ input, expected }) => {
       expect(
-        new BlockNotCollectionView({
+        new BasicBlock({
           block: {
             ...BLOCK,
             parent_table: input,

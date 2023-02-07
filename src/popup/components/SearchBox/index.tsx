@@ -18,7 +18,7 @@ export const SearchBox = ({
       document.createTextNode(
         `.${INPUT_CLASS_NAME}::-webkit-search-cancel-button {
           background-image: url("${chrome.runtime.getURL(
-            './images/clear-query.svg',
+            'images/clear-query.svg',
           )}");
         }`,
       ),
@@ -30,7 +30,7 @@ export const SearchBox = ({
     <div className="search-box">
       <img
         className="icon-search"
-        src={chrome.runtime.getURL('./images/search.svg')}
+        src={chrome.runtime.getURL('images/search.svg')}
       ></img>
       <input
         type="search"

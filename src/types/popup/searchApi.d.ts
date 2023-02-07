@@ -4,10 +4,6 @@ declare namespace SearchApi {
   type TableType = valueOf<
     typeof import('../../popup/search/Record/constants').TABLE_TYPE
   >;
-  type TableTypeWithoutWorkspace = Exclude<
-    TableType,
-    typeof import('../../popup/search/Record/constants').TABLE_TYPE.WORKSPACE
-  >;
 
   type BlockType = valueOf<
     typeof import('../../popup/search/Record/constants').BLOCK_TYPE
@@ -50,7 +46,7 @@ declare namespace SearchApi {
   type _BlockTypeCollectionView =
     keyof typeof import('../../popup/search/Record/constants').BLOCK_TYPE_IS_COLLECTION_VIEW;
 
-  type BlockNotCollectionView = _BlockBase & {
+  type BlockBasic = _BlockBase & {
     type: Exclude<BlockType, _BlockTypeCollectionView>;
   };
 
@@ -61,7 +57,7 @@ declare namespace SearchApi {
     collection_id?: string;
   };
 
-  type Block = BlockCollectionView | BlockNotCollectionView;
+  type Block = BlockCollectionView | BlockBasic;
 
   type Record = Block | Collection | Team;
 

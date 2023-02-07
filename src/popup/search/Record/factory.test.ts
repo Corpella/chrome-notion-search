@@ -1,5 +1,5 @@
 import { Block } from './Block';
-import { BlockCollectionView } from './Block/CollectionView';
+import { CollectionViewBlock } from './Block/CollectionView';
 import { Collection } from './Collection';
 import { BLOCK_TYPE, TABLE_TYPE } from './constants';
 import { createBlock, createRecord } from './factory';
@@ -59,8 +59,8 @@ describe('createRecord()', () => {
               },
             },
           });
-          expect(block).toBeInstanceOf(BlockCollectionView);
-          expect((block as BlockCollectionView).collection).toBeDefined();
+          expect(block).toBeInstanceOf(CollectionViewBlock);
+          expect((block as CollectionViewBlock).collection).toBeDefined();
         });
         test("a block doesn't have a collection", () => {
           const block = createRecord(BLOCK_ID, TABLE_TYPE.BLOCK, {
@@ -74,8 +74,8 @@ describe('createRecord()', () => {
               },
             },
           });
-          expect(block).toBeInstanceOf(BlockCollectionView);
-          expect((block as BlockCollectionView).collection).toBeUndefined();
+          expect(block).toBeInstanceOf(CollectionViewBlock);
+          expect((block as CollectionViewBlock).collection).toBeUndefined();
         });
       });
     }

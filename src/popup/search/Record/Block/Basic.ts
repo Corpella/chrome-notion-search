@@ -2,7 +2,7 @@ import { BLOCK_TYPE, BLOCK_TYPE_MAP } from '../constants';
 import { Block } from './';
 import { isCollectionView } from './CollectionView';
 
-export class BlockNotCollectionView extends Block {
+export class BasicBlock extends Block {
   public type: SearchApi.BlockType;
 
   constructor({ block }: { block: SearchApi.Block }) {

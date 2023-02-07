@@ -15,8 +15,6 @@ export const App = () => {
     }
   }, [error]);
 
-  const isPopup = new URL(location.href).searchParams.has('popup');
-
   useEffect(() => {
     (async () => {
       if (hasGotWorkspace && !workspace) {
@@ -26,8 +24,7 @@ export const App = () => {
     })();
   }, [hasGotWorkspace]);
 
-  if (workspace)
-    return <SearchContainer isPopup={isPopup} workspace={workspace} />;
+  if (workspace) return <SearchContainer workspace={workspace} />;
 
   return (
     <div className="link-button-container">

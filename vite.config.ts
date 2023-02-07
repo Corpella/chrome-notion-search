@@ -1,10 +1,21 @@
+import type { ManifestV3Export } from '@crxjs/vite-plugin';
 import { crx } from '@crxjs/vite-plugin';
 import react from '@vitejs/plugin-react';
+import fs from 'fs';
 import postcssNested from 'postcss-nested';
 import { defineConfig } from 'vite';
 import manifest from './manifest.json';
 import { version } from './package.json';
 // import { visualizer } from 'rollup-plugin-visualizer';
+
+const getHtmlFiles = (dir: string) => {
+  return Object.fromEntries(
+    fs.readdirSync(dir).map((html) => {
+      html = `${dir}/${html}`;
+      return [html.replace(/\.html$/, ''), html];
+    }),
+  );
+};
 
 manifest.version = version;
 
@@ -20,11 +31,12 @@ export default defineConfig({
     rollupOptions: {
       input: {
         debug: 'debug.html',
-        'helps/empty-search-results': 'helps/empty-search-results.html',
+        ...getHtmlFiles('helps'),
+        ...getHtmlFiles('notices'),
       },
     },
   },
-  plugins: [react(), crx({ manifest })],
+  plugins: [react(), crx({ manifest: manifest as ManifestV3Export })],
   css: {
     postcss: {
       plugins: [postcssNested],

@@ -1,7 +1,7 @@
 import { Record } from '.';
 import { Block } from './Block';
-import { BlockCollectionView, isCollectionView } from './Block/CollectionView';
-import { BlockNotCollectionView } from './Block/NotCollectionView';
+import { BasicBlock } from './Block/Basic';
+import { CollectionViewBlock, isCollectionView } from './Block/CollectionView';
 import { Collection } from './Collection';
 import { TABLE_TYPE } from './constants';
 import { RecordError, RecordNotFoundError, RecordTypeError } from './errors';
@@ -59,12 +59,12 @@ export const createRecord = (
             );
           }
         }
-        return new BlockCollectionView({
+        return new CollectionViewBlock({
           block,
           ...(collection ? { collection: new Collection({ collection }) } : {}),
         });
       }
-      return new BlockNotCollectionView({ block });
+      return new BasicBlock({ block });
     }
     default:
       throw new RecordTypeError(`Unknown table type: ${tableType}`);

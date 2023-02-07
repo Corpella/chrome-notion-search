@@ -1,6 +1,6 @@
-import { BlockNotCollectionView } from '../popup/search/Record/Block/NotCollectionView';
+import { BasicBlock } from '../popup/search/Record/Block/Basic';
 
-const block = new BlockNotCollectionView({
+const block = new BasicBlock({
   block: JSON.parse(prompt('json') || ''),
 });
 
@@ -10,4 +10,4 @@ console.info({
 });
 
 const elem = document.getElementById('result');
-if (elem) elem.innerText = JSON.stringify(block, null, 2);
+if (elem) elem.textContent = '\n' + JSON.stringify(block, null, 2);

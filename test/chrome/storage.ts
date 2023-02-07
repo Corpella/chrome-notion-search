@@ -1,24 +1,37 @@
+import { chrome } from 'jest-chrome';
+
 let store = {};
 type Key = keyof typeof store;
 
-// 全部の引数パターン実装するのは果てしなくだるいので、spy は諦めた
+const clear = async () => {
+  store = {};
+};
 
-export const storage = {
-  clear: async () => {
-    store = {};
-  },
-  // get multi は今のところ使ってないので未実装
-  get: async (key?: string) => {
+beforeAll(() => {
+  // TODO test for clear/get/remove/set
+  chrome.storage.local.clear.mockImplementation(clear);
+
+  chrome.storage.local.get.mockImplementation((async (key: string) => {
     return key === undefined
       ? store
       : {
           [key]: store[key as Key] ?? {},
         };
-  },
-  remove: async (key: string) => {
+  }) as typeof chrome.storage.local.get);
+
+  chrome.storage.local.remove.mockImplementation((async (key: string) => {
     delete store[key as Key];
-  },
-  set: async (value: object) => {
+  }) as typeof chrome.storage.local.remove);
+
+  chrome.storage.local.set.mockImplementation((async (value: object) => {
     store = { ...store, ...value };
-  },
-};
+  }) as typeof chrome.storage.local.set);
+});
+
+beforeEach(() => {
+  clear();
+});
+
+afterAll(() => {
+  jest.resetAllMocks();
+});

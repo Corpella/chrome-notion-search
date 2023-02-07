@@ -1,6 +1,6 @@
 import { Collection } from '../Collection';
 import { BLOCK_TYPE, TABLE_TYPE } from '../constants';
-import { BlockCollectionView, isCollectionView } from './CollectionView';
+import { CollectionViewBlock, isCollectionView } from './CollectionView';
 
 const BLOCK: SearchApi.Block = {
   id: 'block-id',
@@ -31,7 +31,7 @@ describe('validates a block type', () => {
     },
   ])('$input', ({ input, expected: { ok } }) => {
     const fn = () =>
-      new BlockCollectionView({
+      new CollectionViewBlock({
         block: {
           ...BLOCK,
           type: input,
@@ -109,7 +109,7 @@ describe('title', () => {
     },
   ])('$name', ({ input: { block, collection }, expected }) => {
     expect(
-      new BlockCollectionView({
+      new CollectionViewBlock({
         block: {
           ...BLOCK,
           ...block,
@@ -184,7 +184,7 @@ describe('icon', () => {
     },
   ])('$name', ({ input: { block, collection }, expected }) => {
     expect(
-      new BlockCollectionView({
+      new CollectionViewBlock({
         block: {
           ...BLOCK,
           ...block,
@@ -197,7 +197,7 @@ describe('icon', () => {
 
 test('canBeDir', () => {
   expect(
-    new BlockCollectionView({
+    new CollectionViewBlock({
       block: BLOCK,
     }).canBeDir(),
   ).toBe(true);

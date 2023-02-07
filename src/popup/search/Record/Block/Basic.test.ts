@@ -1,5 +1,5 @@
 import { BLOCK_TYPE, TABLE_TYPE } from '../constants';
-import { BlockNotCollectionView } from './NotCollectionView';
+import { BasicBlock } from './Basic';
 
 const BLOCK: SearchApi.Block = {
   id: 'block-id',
@@ -32,7 +32,7 @@ describe('unknown block type', () => {
     if (expected === undefined) {
       expect(
         () =>
-          new BlockNotCollectionView({
+          new BasicBlock({
             block: {
               ...BLOCK,
               type: input,
@@ -42,7 +42,7 @@ describe('unknown block type', () => {
     } else {
       expect(
         () =>
-          new BlockNotCollectionView({
+          new BasicBlock({
             block: {
               ...BLOCK,
               type: input,
@@ -63,7 +63,7 @@ describe('canBeDir', () => {
   ])('$input → $expected', ({ input, expected }) => {
     jest.spyOn(console, 'error').mockImplementation(() => {});
     expect(
-      new BlockNotCollectionView({
+      new BasicBlock({
         block: {
           ...BLOCK,
           type: input,
@@ -118,11 +118,11 @@ describe('title', () => {
     },
   ])('$name', ({ input, expected }) => {
     expect(
-      new BlockNotCollectionView({
+      new BasicBlock({
         block: {
           ...BLOCK,
           ...input,
-        } as SearchApi.BlockNotCollectionView,
+        } as SearchApi.BlockBasic,
       }).title,
     ).toBe(expected);
   });
@@ -147,7 +147,7 @@ describe('icon', () => {
     },
   ])('$name', ({ input, expected }) => {
     expect(
-      new BlockNotCollectionView({
+      new BasicBlock({
         block: {
           ...BLOCK,
           ...input,
