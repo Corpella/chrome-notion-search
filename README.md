@@ -23,7 +23,7 @@ yarn run build
 
 ## How to Contribute
 
-Create a branch from `development` and make a pull request to `development` .
+Create a branch from `develop` and make a pull request to `develop` .
 
 ## License
 
