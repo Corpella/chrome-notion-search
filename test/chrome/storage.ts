@@ -1,38 +1,37 @@
+import { chrome } from 'jest-chrome';
+
 let store = {};
 type Key = keyof typeof store;
 
-const storage = {
-  clear: async () => {
-    store = {};
-  },
-  // get-multi is not implemented yet
-  get: async (key?: string) => {
+const clear = async () => {
+  store = {};
+};
+
+beforeAll(() => {
+  // TODO test for clear/get/remove/set
+  chrome.storage.local.clear.mockImplementation(clear);
+
+  chrome.storage.local.get.mockImplementation((async (key: string) => {
     return key === undefined
       ? store
       : {
           [key]: store[key as Key] ?? {},
         };
-  },
-  remove: async (key: string) => {
+  }) as typeof chrome.storage.local.get);
+
+  chrome.storage.local.remove.mockImplementation((async (key: string) => {
     delete store[key as Key];
-  },
-  set: async (value: object) => {
+  }) as typeof chrome.storage.local.remove);
+
+  chrome.storage.local.set.mockImplementation((async (value: object) => {
     store = { ...store, ...value };
-  },
-};
-
-let OrigLocalStorage: chrome.storage.LocalStorageArea;
-
-beforeAll(() => {
-  // spy is very hard because there are so many argument types
-  OrigLocalStorage = global.chrome.storage.local;
-  global.chrome.storage.local = storage as chrome.storage.LocalStorageArea;
+  }) as typeof chrome.storage.local.set);
 });
 
 beforeEach(() => {
-  storage.clear();
+  clear();
 });
 
 afterAll(() => {
-  global.chrome.storage.local = OrigLocalStorage;
+  jest.resetAllMocks();
 });

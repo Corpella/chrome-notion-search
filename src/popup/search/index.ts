@@ -53,7 +53,7 @@ const buildIcon = (icon: string | undefined, id: string) => {
   if (!icon)
     return {
       type: ICON_TYPE.IMAGE,
-      value: chrome.runtime.getURL('./images/page.svg'),
+      value: chrome.runtime.getURL('images/page.svg'),
     };
 
   if (icon.startsWith('http')) {

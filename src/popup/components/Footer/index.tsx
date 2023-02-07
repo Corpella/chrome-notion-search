@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { LocalResourceLink } from '../../../components/LocalResourceLink';
 import { isPopup as isPopupFn } from '../../../utils';
 import { SEARCH_LIMIT } from '../../constants';
 import './styles.pcss';
@@ -10,21 +11,12 @@ export const Footer = ({
   total: number;
   showsSummary: boolean;
 }) => {
-  const handleClickSetting = (
-    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-  ) => {
-    chrome.runtime.openOptionsPage();
-    event.preventDefault();
-  };
-  const handleClickOpenInNewTab = (
-    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-  ) => {
-    const url = new URL(location.href);
-    url.searchParams.delete('popup');
-    chrome.tabs.create({ url: url.toString() });
-    event.preventDefault();
-  };
   const isPopup = useMemo(isPopupFn, []);
+  const optionsPage = useMemo(() => {
+    const page = chrome.runtime.getManifest().options_page;
+    if (!page) throw new Error('options_page is defined in manifest.json');
+    return chrome.runtime.getURL(page);
+  }, []);
 
   return (
     <div className="footer">
@@ -47,17 +39,25 @@ export const Footer = ({
       )}
       <div className="icons">
         {isPopup && (
-          <a
-            href="#"
+          <LocalResourceLink
+            href={() => {
+              const url = new URL(location.href);
+              url.searchParams.delete('popup');
+              return url.toString();
+            }}
             title="Open in a new tab"
-            onClick={handleClickOpenInNewTab}
+            target="_blank"
           >
-            <img src={chrome.runtime.getURL('./images/open-in-new-tab.png')} />
-          </a>
+            <img src={chrome.runtime.getURL('images/open-in-new-tab.png')} />
+          </LocalResourceLink>
         )}
-        <a href="#" title="Open settings" onClick={handleClickSetting}>
-          <img src={chrome.runtime.getURL('./images/settings.svg')} />
-        </a>
+        <LocalResourceLink
+          href={optionsPage}
+          title="Open settings"
+          target="_blank"
+        >
+          <img src={chrome.runtime.getURL('images/settings.svg')} />
+        </LocalResourceLink>
       </div>
     </div>
   );
