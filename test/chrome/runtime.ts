@@ -1,7 +1,16 @@
-const getURL = (str: string) => `chrome://<extension-id>/${str}`;
+import { chrome } from 'jest-chrome';
+import manifest from '../../manifest.json';
+import { version } from '../../package.json';
+
+manifest.version = version;
 
 beforeAll(() => {
-  jest.spyOn(chrome.runtime, 'getURL').mockImplementation(getURL);
+  chrome.runtime.getManifest.mockReturnValue(
+    manifest as chrome.runtime.Manifest,
+  );
+  chrome.runtime.getURL.mockImplementation(
+    (str: string) => `chrome://<extensionId>/${str}`,
+  );
 });
 
 afterAll(() => {

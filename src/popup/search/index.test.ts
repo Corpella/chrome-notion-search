@@ -164,7 +164,7 @@ describe('gets an icon', () => {
       input: undefined,
       expected: () => ({
         type: ICON_TYPE.IMAGE,
-        value: chrome.runtime.getURL('./images/page.svg'),
+        value: chrome.runtime.getURL('images/page.svg'),
       }),
     },
     {

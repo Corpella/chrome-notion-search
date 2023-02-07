@@ -5,7 +5,7 @@ chrome.commands.onCommand.addListener((command) => {
     case 'open-search-page': {
       const popup = chrome.runtime.getManifest().action?.default_popup;
       if (!popup)
-        throw new Error('action.default_popup is not found in manifest.json');
+        throw new Error('action.default_popup is not defined in manifest.json');
       chrome.tabs.create({
         url: chrome.runtime.getURL(popup.replace(/\?.+$/, '')),
       });
@@ -27,7 +27,7 @@ chrome.runtime.onInstalled.addListener(({ reason, previousVersion }) => {
       LESS_THAN
     )
       chrome.tabs.create({
-        url: chrome.runtime.getURL(`./notices/2_0_0.html`),
+        url: chrome.runtime.getURL('notices/2_0_0.html'),
       });
   }
 });
