@@ -16,6 +16,7 @@ chrome.commands.onCommand.addListener((command) => {
   }
 });
 
+// TODO: rm this code later
 const KEYBOARD_SHORTCUT_CHANGED_VERSION = '2.0.0';
 const LESS_THAN = -1;
 
