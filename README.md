@@ -21,6 +21,10 @@ yarn run build
 
 [/releases](https://github.com/Cside/notion-search/releases)
 
+## How to Contribute
+
+Create a branch from `development` and make a pull request to `development` .
+
 ## License
 
 [The MIT License](/LICENSE).
