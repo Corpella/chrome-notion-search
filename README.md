@@ -19,7 +19,7 @@ yarn run build
 
 ## Release Notes
 
-[/releases](https://github.com/Cside/notion-search/releases)
+[/releases](https://github.com/Cside/chrome-notion-search/releases)
 
 ## How to Contribute
 
