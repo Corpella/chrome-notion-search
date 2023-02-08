@@ -186,7 +186,7 @@ export const search = async ({
         icon: buildIcon(block.icon, id),
       };
 
-      // https://github.com/Cside/notion-search/issues/36
+      // https://github.com/Cside/chrome-notion-search/issues/36
       if (result.block === undefined)
         throw new TypeError(`item.block is undefined`);
 
