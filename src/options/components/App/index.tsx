@@ -52,11 +52,11 @@ export const App = () => (
         </li>
         <li>
           <a
-            href="https://github.com/Cside/notion-search/"
+            href="https://github.com/Cside/chrome-notion-search/"
             target="_blank"
             rel="noreferrer"
           >
-            Source Code
+            Repository
           </a>{' '}
           (Patches welcome :D )
         </li>
