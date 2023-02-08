@@ -27,18 +27,24 @@ const getDir = (
   let record: Record | undefined;
   try {
     record = createRecord(id, tableType, recordMap);
-    if (record.canBeDir())
-      paths.push({
-        title: record.title || TEXT_NO_TITLE,
-        record: record.record,
-      });
+    if (record.canBeDir()) {
+      // https://github.com/Cside/chrome-notion-search/issues/36
+      if (record.record === undefined) {
+        throw new TypeError(`record.record is undefined in getDir()`);
+      } else {
+        paths.push({
+          title: record.title || TEXT_NO_TITLE,
+          record: record.record,
+        });
+      }
+    }
 
     const parent = record.parent;
     if (parent.isWorkspace) return paths;
 
     return getDir(paths, parent.id, parent.tableType, recordMap);
   } catch (error) {
-    // Mostly parent_id are undefined, so don't look up any more parents
+    // In the most case parent_id are undefined, so don't look up any more parents
     console.error(error, {
       id,
       tableType,
