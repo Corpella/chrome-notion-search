@@ -1,4 +1,4 @@
-import { AxiosError, CanceledError } from 'axios';
+import { AxiosError, CanceledError as AxiosCanceledError } from 'axios';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   BooleanParam,
@@ -36,8 +36,9 @@ export const SearchContainer = ({ workspace }: { workspace: Workspace }) => {
   const [searchResult, setSearchResult] = useState<SearchResult | undefined>(
     undefined,
   );
-  const [hasEmptySearchResultsError, setHasEmptySearchResultsError] =
-    useState(false);
+  const [errorToDisplay, setErrorToDiplay] = useState<Error | undefined>(
+    undefined,
+  );
 
   const trimmedQuery = query.trim();
   const hasQuery = trimmedQuery.length > 0;
@@ -53,7 +54,7 @@ export const SearchContainer = ({ workspace }: { workspace: Workspace }) => {
 
         const store = (await storage.get(
           `${workspace.id}-${STORAGE_KEY.LAST_SEARCHED}`,
-        )) as SearchResultCache | undefined; // TODO: 型ガード
+        )) as SearchResultCache | undefined; // TODO: type guard
 
         if (store) {
           setQuery(store.query);
@@ -71,7 +72,7 @@ export const SearchContainer = ({ workspace }: { workspace: Workspace }) => {
           query,
           sortBy:
             !hasQuery && sortBy === SORT_BY.RELEVANCE // ad hoc: worthless condition
-              ? SORT_BY.CREATED // 別に last edited でも良いのだが
+              ? SORT_BY.CREATED // LAST_EDITED is also fine
               : sortBy,
           filterByOnlyTitles,
           savesToStorage: isPopup && hasQuery,
@@ -79,11 +80,11 @@ export const SearchContainer = ({ workspace }: { workspace: Workspace }) => {
         });
         setSearchResult(searchResult);
         setUsedQuery(query);
-        if (searchResult.total > 0) setHasEmptySearchResultsError(false);
+        if (searchResult.total > 0) setErrorToDiplay(undefined);
       } catch (error) {
         if (error instanceof EmptySearchResultsError) {
-          setHasEmptySearchResultsError(true);
-        } else if (!(error instanceof CanceledError)) {
+          setErrorToDiplay(error);
+        } else if (!(error instanceof AxiosCanceledError)) {
           alertError(
             error instanceof AxiosError ? 'Network error' : error + '',
             error,
@@ -102,9 +103,10 @@ export const SearchContainer = ({ workspace }: { workspace: Workspace }) => {
           setQuery={setQuery}
           workspaceName={workspace.name}
         />
-        {hasEmptySearchResultsError && (
-          <EmptySearchResultsCallout workspace={workspace} />
-        )}
+        {errorToDisplay &&
+          errorToDisplay instanceof EmptySearchResultsError && (
+            <EmptySearchResultsCallout workspace={workspace} />
+          )}
         <Filter
           filterByOnlyTitles={filterByOnlyTitles}
           setFilterOnlyTitles={setFilterOnlyTitles}

@@ -1,8 +1,9 @@
 {
   "version": "2.0.1",
   "scripts": {
-    "dev": "yarn run clean; IS_SENTRY_ENABLED=false vite",
     "build": "yarn run clean; vite build",
+    "dev": "yarn run clean; ENABLES_SENTRY=false vite",
+    "build:visualizer": "yarn run clean; ENABLES_VISUALIZER=true vite build",
     "clean": "rimraf dist out.zip;",
     "test": "jest",
     "release": "yarn install && yarn run build && zip -r out.zip dist",
