@@ -44,7 +44,7 @@ const getDir = (
 
     return getDir(paths, parent.id, parent.tableType, recordMap);
   } catch (error) {
-    // In the most case parent_id are undefined, so don't look up any more parents
+    // In most case parent_id are undefined, so don't look up any more parents
     console.error(error, {
       id,
       tableType,
