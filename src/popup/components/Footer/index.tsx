@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { LocalResourceLink } from '../../../components/LocalResourceLink';
 import { isPopup as isPopupFn } from '../../../utils';
 import { SEARCH_LIMIT } from '../../constants';
@@ -12,10 +12,25 @@ export const Footer = ({
   showsSummary: boolean;
 }) => {
   const isPopup = useMemo(isPopupFn, []);
+
   const optionsPage = useMemo(() => {
     const page = chrome.runtime.getManifest().options_page;
     if (!page) throw new Error('options_page is defined in manifest.json');
     return chrome.runtime.getURL(page);
+  }, []);
+
+  const summaryHtml =
+    total > SEARCH_LIMIT
+      ? chrome.i18n.getMessage('summaryOfResultOverLimit', [
+          total.toLocaleString(),
+          SEARCH_LIMIT.toLocaleString(),
+        ])
+      : chrome.i18n.getMessage('summaryOfResult', total.toLocaleString());
+
+  const nonPopupUrl = useCallback(() => {
+    const url = new URL(location.href);
+    url.searchParams.delete('popup');
+    return url.toString();
   }, []);
 
   return (
@@ -23,28 +38,13 @@ export const Footer = ({
       {showsSummary && (
         <div
           className="summary"
-          dangerouslySetInnerHTML={{
-            __html:
-              total > SEARCH_LIMIT
-                ? chrome.i18n.getMessage('summaryOfResultOverLimit', [
-                    total.toLocaleString(),
-                    SEARCH_LIMIT.toLocaleString(),
-                  ])
-                : chrome.i18n.getMessage(
-                    'summaryOfResult',
-                    total.toLocaleString(),
-                  ),
-          }}
+          dangerouslySetInnerHTML={{ __html: summaryHtml }}
         ></div>
       )}
       <div className="icons">
         {isPopup && (
           <LocalResourceLink
-            href={() => {
-              const url = new URL(location.href);
-              url.searchParams.delete('popup');
-              return url.toString();
-            }}
+            href={nonPopupUrl}
             title="Open in a new tab"
             target="_blank"
           >
