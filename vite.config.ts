@@ -41,9 +41,9 @@ export default defineConfig({
 
 // utils
 
-function getEnv(name: string) {
+function getEnv(name: string): string | undefined {
   const val = process.env[name];
-  return val !== undefined && JSON.parse(val);
+  return val === undefined ? val : JSON.parse(val);
 }
 
 function getHtmlFiles(dir: string) {
