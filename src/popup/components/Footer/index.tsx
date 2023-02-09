@@ -1,4 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
+import { Tooltip } from 'react-tooltip';
+import 'react-tooltip/dist/react-tooltip.css';
 import { LocalResourceLink } from '../../../components/LocalResourceLink';
 import { isPopup as isPopupFn } from '../../../utils';
 import { SEARCH_LIMIT } from '../../constants';
@@ -43,21 +45,25 @@ export const Footer = ({
       )}
       <div className="icons">
         {isPopup && (
-          <LocalResourceLink
-            href={nonPopupUrl}
-            title="Open in a new tab"
-            target="_blank"
-          >
-            <img src={chrome.runtime.getURL('images/open-in-new-tab.png')} />
-          </LocalResourceLink>
+          <>
+            <LocalResourceLink href={nonPopupUrl} target="_blank">
+              <img
+                src={chrome.runtime.getURL('images/open-in-new-tab.png')}
+                id="open-in-new-tab"
+              />
+            </LocalResourceLink>
+            <Tooltip anchorId="open-in-new-tab" content="Open in new tab" />
+          </>
         )}
-        <LocalResourceLink
-          href={optionsPage}
-          title="Open settings"
-          target="_blank"
-        >
-          <img src={chrome.runtime.getURL('images/settings.svg')} />
-        </LocalResourceLink>
+        <>
+          <LocalResourceLink href={optionsPage} target="_blank">
+            <img
+              src={chrome.runtime.getURL('images/settings.svg')}
+              id="open-options"
+            />
+          </LocalResourceLink>
+          <Tooltip anchorId="open-options" content="Open options" />
+        </>
       </div>
     </div>
   );
