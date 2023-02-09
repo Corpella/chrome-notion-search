@@ -7,4 +7,4 @@ type Workspace = {
   name: string;
 };
 
-declare const IS_SENTRY_ENABLED: boolean;
+declare const ENABLES_SENTRY: boolean;
