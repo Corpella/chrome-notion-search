@@ -1,6 +1,8 @@
 {
   "transform": {
-    "\\.[jt]sx?$": ["ts-jest"],
+    "\\.[jt]sx?$": ["ts-jest"]
+  },
+  "moduleNameMapper": {
     "\\.p?css$": "jest-transform-stub"
   },
   "setupFilesAfterEnv": ["./test/jest.setup.ts"],
