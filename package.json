@@ -18,9 +18,6 @@
     "check:ngword": "if git grep -rE \"console\\.(log|dir)|FIXME\" -- ':!package.json'; then exit 1; else echo \"All good\"; fi",
     "check": "run-p -c test lint check:*"
   },
-  "resolutions": {
-    "@types/react": "^18.0.26"
-  },
   "devDependencies": {
     "@crxjs/vite-plugin": "https://gitpkg.now.sh/Cside/chrome-extension-tools/packages/vite-plugin?62e01267f0e3c2681fee3e8e3bedac4e629461bd",
     "@testing-library/jest-dom": "^5.16.5",
