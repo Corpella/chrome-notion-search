@@ -1,10 +1,10 @@
 {
   "version": "2.0.1",
   "scripts": {
-    "build": "yarn run clean; vite build",
-    "dev": "yarn run clean; ENABLES_SENTRY=false vite",
-    "visualize": "yarn run clean; ENABLES_VISUALIZER=true vite build",
-    "clean": "rimraf dist out.zip;",
+    "build": "yarn run clean && vite build",
+    "dev": "yarn run clean && ENABLES_SENTRY=false vite",
+    "visualize": "yarn run clean && ENABLES_VISUALIZER=true vite build && open stats.html",
+    "clean": "rimraf dist out.zip",
     "test": "jest",
     "release": "yarn install && yarn run build && zip -r out.zip dist",
     "lint:eslint": "eslint './{src,test}/**/*.{ts,tsx}'",
