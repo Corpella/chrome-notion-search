@@ -1,6 +1,6 @@
 import type { ManifestV3Export } from '@crxjs/vite-plugin';
 import { crx } from '@crxjs/vite-plugin';
-import react from '@vitejs/plugin-react';
+import react from '@vitejs/plugin-react-swc';
 import fs from 'fs';
 import postcssNested from 'postcss-nested';
 import { visualizer } from 'rollup-plugin-visualizer';
