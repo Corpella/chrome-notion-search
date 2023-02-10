@@ -8,8 +8,8 @@ import { defineConfig, PluginOption } from 'vite';
 import manifest from './manifest.json';
 import { version } from './package.json';
 
-const ENABLES_SENTRY = getEnv('ENABLES_SENTRY') ?? true;
-const ENABLES_VISUALIZER = getEnv('ENABLES_VISUALIZER') ?? false;
+const ENABLES_SENTRY = getEnv<boolean>('ENABLES_SENTRY') ?? true;
+const ENABLES_VISUALIZER = getEnv<boolean>('ENABLES_VISUALIZER') ?? false;
 
 manifest.version = version;
 
@@ -41,7 +41,7 @@ export default defineConfig({
 
 // utils
 
-function getEnv(name: string): string | undefined {
+function getEnv<T>(name: string): T | undefined {
   const val = process.env[name];
   return val === undefined ? val : JSON.parse(val);
 }
