@@ -32,6 +32,14 @@ export default function Item({
   const dirElements = dirs.length > 0 && (
     <p className="dirs">
       {dirs
+        .filter((dir) => {
+          // https://github.com/Cside/chrome-notion-search/issues/36
+          if (dir.record === undefined) {
+            console.error(`dir.record is undefined in Item component`);
+            return false;
+          }
+          return true;
+        })
         .map<React.ReactNode>((dir) => (
           <span
             key={dir.record.id}
