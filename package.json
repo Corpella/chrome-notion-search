@@ -1,5 +1,5 @@
 {
-  "version": "2.0.1",
+  "version": "2.0.3",
   "scripts": {
     "dev": "yarn run clean; IS_SENTRY_ENABLED=false vite",
     "build": "yarn run clean; vite build",
