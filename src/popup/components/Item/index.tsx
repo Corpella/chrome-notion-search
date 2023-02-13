@@ -29,17 +29,22 @@ export default function Item({
     );
   const isPopup = useMemo(isPopupFn, []);
 
-  const dirElements = dirs.length > 0 && (
-    <p className="dirs">
-      {dirs
-        .filter((dir) => {
-          // https://github.com/Cside/chrome-notion-search/issues/36
-          if (dir.record === undefined) {
-            console.error(`dir.record is undefined in Item component`);
-            return false;
-          }
-          return true;
-        })
+  let dirElements: React.ReactNode | undefined = undefined;
+  if (dirs.length > 0) {
+    const filteredDirs = dirs.filter((dir) => {
+      // https://github.com/Cside/chrome-notion-search/issues/36
+      if (dir.record === undefined) {
+        console.error(
+          `dir.record is undefined in Item component. Item: ${JSON.stringify(
+            dir,
+          )}`,
+        );
+        return false;
+      }
+      return true;
+    });
+    if (filteredDirs.length > 0) {
+      dirElements = filteredDirs
         .map<React.ReactNode>((dir) => (
           <span
             key={dir.record.id}
@@ -52,9 +57,9 @@ export default function Item({
             {dir.title}
           </span>
         ))
-        .reduce((prev, current) => [prev, ' / ', current])}
-    </p>
-  );
+        .reduce((prev, current) => [prev, ' / ', current]);
+    }
+  }
 
   return (
     <div
@@ -74,7 +79,7 @@ export default function Item({
             <p className={`title ${query.trim().length > 0 ? '' : 'no-query'}`}>
               {setHighlight(title, query)}
             </p>
-            {dirElements}
+            {dirElements && <p className="dirs">{dirElements}</p>}
             {text !== undefined && (
               <p className="text">{setHighlight(text, query)}</p>
             )}

@@ -12,7 +12,7 @@ export const storage = {
       throw new ChromeStorageError(`${PREFIX} get(${key}) failed`, error);
     }
   },
-  /* eslint @typescript-eslint/no-explicit-any: 0 */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   set: async (obj: any) => {
     try {
       await chrome.storage.local.set(obj);

@@ -36,6 +36,7 @@ describe('useWorkspace', () => {
 
         const {
           result: { current },
+          // eslint-disable-next-line testing-library/no-unnecessary-act
         } = await act(async () => renderHook(() => useWorkspace()));
 
         expect(current).toEqual(expect.objectContaining(expected));
@@ -48,6 +49,7 @@ describe('useWorkspace', () => {
 
       const {
         result: { current },
+        // eslint-disable-next-line testing-library/no-unnecessary-act
       } = await act(async () => renderHook(() => useWorkspace()));
 
       expect(current).toEqual(
@@ -90,6 +92,7 @@ describe('useWorkspace', () => {
         .spyOn(workspaces, 'selectAndLinkWorkspace')
         .mockResolvedValue(input as workspaces.LinkWorkspaceResult);
 
+      // eslint-disable-next-line testing-library/no-unnecessary-act
       const { result } = await act(async () =>
         renderHook(() => useWorkspace()),
       );
@@ -107,6 +110,7 @@ describe('useWorkspace', () => {
         .mockResolvedValue(dummyWorkspace1);
     });
     test('resolves', async () => {
+      // eslint-disable-next-line testing-library/no-unnecessary-act
       const { result } = await act(async () =>
         renderHook(() => useWorkspace()),
       );
@@ -133,6 +137,7 @@ describe('useWorkspace', () => {
         .spyOn(workspaces, 'unlinkWorkspace')
         .mockRejectedValue(new Error('a kind of error'));
 
+      // eslint-disable-next-line testing-library/no-unnecessary-act
       const { result } = await act(async () =>
         renderHook(() => useWorkspace()),
       );
