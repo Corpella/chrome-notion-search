@@ -8,12 +8,12 @@ export const userEventSetup = (
 };
 
 export const $ = <T extends HTMLElement>(selector: string) => {
-  /* eslint testing-library/no-node-access: 0 */
+  // eslint-disable-next-line testing-library/no-node-access
   const elem = document.querySelector<T>(selector);
   if (!elem) throw new Error(`Element (${selector}) is not found`);
   return elem;
 };
 
-/* eslint testing-library/no-node-access: 0 */
 export const $$ = <T extends HTMLElement>(selector: string) =>
+  // eslint-disable-next-line testing-library/no-node-access
   document.querySelectorAll<T>(selector);
