@@ -29,7 +29,6 @@ afterAll(() => {
 });
 
 const renderAndWaitEffect = async (component: JSX.Element) => {
-  // eslint-disable-next-line testing-library/no-unnecessary-act
   const result = await act(() => render(component));
   // debounce 対策。await act が待てるのは setState と非同期処理だけで、タイマーまでは進めない
   await act(() => jest.runOnlyPendingTimers());
@@ -181,7 +180,6 @@ describe('gets last search result', () => {
     );
     jest.spyOn(utils, 'isPopup').mockReturnValue(input.isPopup);
 
-    // eslint-disable-next-line testing-library/no-unnecessary-act
     const { unmount } = await act(() => renderAndWaitEffect(container));
     let inputElem = $<HTMLInputElement>('.query');
     expect(inputElem).toHaveValue('');
@@ -191,11 +189,10 @@ describe('gets last search result', () => {
 
     history.replaceState(null, '', '/');
 
-    // eslint-disable-next-line testing-library/no-unnecessary-act
     await act(() => render(container));
     inputElem = $<HTMLInputElement>('.query');
     expect(inputElem).toHaveValue(expected);
-    // eslint-disable-next-line jest/no-conditional-expect
+    /* eslint  jest/no-conditional-expect: 0 */
     if (expected) {
       expect($<HTMLInputElement>(`.test-item-${blockId}`)).toBeInTheDocument();
     }
