@@ -32,6 +32,8 @@ export const BLOCK_TYPE = {
   // TO_DO: 'to_do',
   // SUB_HEADER: 'sub_header',
   TOGGLE: 'toggle',
+  CALLOUT: 'callout',
+  HEADER: 'header',
   // BULLETED_LIST: 'bulleted_list',
   // // Also known as a "Template Button".
   // // The title is the button text, and the children are the templates to clone.
