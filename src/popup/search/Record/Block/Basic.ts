@@ -3,11 +3,10 @@ import { Block } from './';
 import { isCollectionView } from './CollectionView';
 
 export class BasicBlock extends Block {
-  public type: SearchApi.BlockType;
+  public type: SearchApi.BlockBasic['type'];
 
   constructor({ block }: { block: SearchApi.Block }) {
     super({ block });
-    this.type = block.type;
 
     if (isCollectionView(block)) {
       throw new Error(
@@ -18,6 +17,7 @@ export class BasicBlock extends Block {
         `Unknown block type: ${block.type}. block: ${JSON.stringify(block)}`,
       );
     }
+    this.type = block.type;
   }
   public canBeDir() {
     return this.type === BLOCK_TYPE.PAGE;
