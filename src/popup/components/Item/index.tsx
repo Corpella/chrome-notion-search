@@ -34,11 +34,9 @@ export default function Item({
     const filteredDirs = dirs.filter((dir) => {
       // https://github.com/Cside/chrome-notion-search/issues/36
       if (dir.record === undefined) {
-        console.error(
-          `dir.record is undefined in Item component. Item: ${JSON.stringify(
-            dir,
-          )}`,
-        );
+        console.error(`dir.record is undefined in Item component`, {
+          dir: JSON.stringify(dir),
+        });
         return false;
       }
       return true;

@@ -74,6 +74,7 @@ describe('dirs', () => {
       expect(spy).toHaveBeenCalledTimes(expected.hasConsoleCalledTimes);
       expect(spy).toHaveBeenCalledWith(
         expect.stringMatching(/^dir.record is undefined in Item component/),
+        expect.any(Object),
       );
     }
   });
