@@ -53,6 +53,4 @@ export const BLOCK_TYPE_MAP = Object.fromEntries(
 export const BLOCK_TYPE_IS_COLLECTION_VIEW = {
   [BLOCK_TYPE.COLLECTION_VIEW_PAGE]: true,
   [BLOCK_TYPE.COLLECTION_VIEW]: true,
-} as {
-  [key in valueOf<typeof BLOCK_TYPE>]?: boolean;
 };
