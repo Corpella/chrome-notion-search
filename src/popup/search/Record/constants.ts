@@ -30,7 +30,7 @@ export const BLOCK_TYPE = {
   COLUMN: 'column', // parent only
   TEXT: 'text',
   // TO_DO: 'to_do',
-  // SUB_HEADER: 'sub_header',
+  SUB_HEADER: 'sub_header',
   TOGGLE: 'toggle',
   CALLOUT: 'callout',
   HEADER: 'header',
