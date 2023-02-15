@@ -30,9 +30,10 @@ export const selectAndLinkWorkspace =
     let workspace: Workspace | undefined = undefined;
     switch (workspaces.length) {
       case 0:
-        // オブジェクトがでかすぎて Sentry に到達しない可能性も無きにしもあらずなので、念の為分ける
-        console.error(`No spaces are found. res: ${JSON.stringify(res)}`);
-        // TODO: このエラー 2 回コンソールに出るんだけどなんで？
+        // This object is too big and may be rejected by Sentry, so separate the log just in case
+        console.error(`No spaces are found`, {
+          res: JSON.stringify(res),
+        });
         throw new Error(`No spaces are found`);
       case 1:
         workspace = workspaces[0];
