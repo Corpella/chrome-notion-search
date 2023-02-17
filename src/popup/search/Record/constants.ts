@@ -30,8 +30,11 @@ export const BLOCK_TYPE = {
   COLUMN: 'column', // parent only
   TEXT: 'text',
   // TO_DO: 'to_do',
-  // SUB_HEADER: 'sub_header',
+  SUB_HEADER: 'sub_header',
+  SUB_SUB_HEADER: 'sub_sub_header',
   TOGGLE: 'toggle',
+  CALLOUT: 'callout',
+  HEADER: 'header',
   // BULLETED_LIST: 'bulleted_list',
   // // Also known as a "Template Button".
   // // The title is the button text, and the children are the templates to clone.
@@ -51,6 +54,4 @@ export const BLOCK_TYPE_MAP = Object.fromEntries(
 export const BLOCK_TYPE_IS_COLLECTION_VIEW = {
   [BLOCK_TYPE.COLLECTION_VIEW_PAGE]: true,
   [BLOCK_TYPE.COLLECTION_VIEW]: true,
-} as {
-  [key in valueOf<typeof BLOCK_TYPE>]?: boolean;
 };

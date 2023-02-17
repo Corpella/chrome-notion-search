@@ -23,3 +23,6 @@ export const $ = <T extends HTMLElement>(selector: string) => {
   if (!elem) throw new Error(`Element (${selector}) is not found`);
   return elem;
 };
+
+export const $$ = <T extends HTMLElement>(selector: string) =>
+  document.querySelectorAll<T>(selector);
