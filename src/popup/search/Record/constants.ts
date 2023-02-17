@@ -31,6 +31,7 @@ export const BLOCK_TYPE = {
   TEXT: 'text',
   // TO_DO: 'to_do',
   SUB_HEADER: 'sub_header',
+  SUB_SUB_HEADER: 'sub_sub_header',
   TOGGLE: 'toggle',
   CALLOUT: 'callout',
   HEADER: 'header',
