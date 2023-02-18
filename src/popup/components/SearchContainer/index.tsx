@@ -39,6 +39,7 @@ export const SearchContainer = ({ workspace }: { workspace: Workspace }) => {
   const [errorToDisplay, setErrorToDiplay] = useState<Error | undefined>(
     undefined,
   );
+  const [fromStorage, setFromStorage] = useState<boolean>(false);
 
   const trimmedQuery = query.trim();
   const hasQuery = trimmedQuery.length > 0;
@@ -58,6 +59,7 @@ export const SearchContainer = ({ workspace }: { workspace: Workspace }) => {
 
         if (store) {
           setQuery(store.query);
+          setFromStorage(true);
           setUsedQuery(query);
           setSearchResult(store.searchResult);
           return;
@@ -101,6 +103,8 @@ export const SearchContainer = ({ workspace }: { workspace: Workspace }) => {
         <SearchBox
           query={query}
           setQuery={setQuery}
+          fromStorage={fromStorage}
+          setFromStorage={setFromStorage}
           workspaceName={workspace.name}
         />
         {errorToDisplay &&
