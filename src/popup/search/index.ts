@@ -19,7 +19,7 @@ export class EmptySearchResultsError extends Error {}
 const AbortsController = new AbortControllers();
 
 const getDir = (
-  paths: Dir[],
+  dirs: Dir[],
   id: string,
   tableType: SearchApi.TableType,
   recordMap: SearchApi.RecordMap,
@@ -32,7 +32,7 @@ const getDir = (
       if (record.record === undefined) {
         throw new TypeError(`record.record is undefined in getDir()`);
       } else {
-        paths.push({
+        dirs.push({
           title: record.title || TEXT_NO_TITLE,
           record: record.record,
         });
@@ -40,9 +40,9 @@ const getDir = (
     }
 
     const parent = record.parent;
-    if (parent.isWorkspace) return paths;
+    if (parent.isWorkspace) return dirs;
 
-    return getDir(paths, parent.id, parent.tableType, recordMap);
+    return getDir(dirs, parent.id, parent.tableType, recordMap);
   } catch (error) {
     // In most case parent_id are undefined, so don't look up any more parents
     console.error(error, {
@@ -51,7 +51,7 @@ const getDir = (
       record: JSON.stringify(record),
     });
     console.info({ record, recordMap });
-    return paths;
+    return dirs;
   }
 };
 
