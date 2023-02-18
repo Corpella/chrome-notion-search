@@ -29,13 +29,14 @@ export const BLOCK_TYPE = {
   COLUMN_LIST: 'column_list', // parent only
   COLUMN: 'column', // parent only
   TEXT: 'text',
-  // TO_DO: 'to_do',
+  TO_DO: 'to_do',
   SUB_HEADER: 'sub_header',
   SUB_SUB_HEADER: 'sub_sub_header',
+  NUMBERED_LIST: 'numbered_list',
   TOGGLE: 'toggle',
   CALLOUT: 'callout',
   HEADER: 'header',
-  // BULLETED_LIST: 'bulleted_list',
+  BULLETED_LIST: 'bulleted_list',
   // // Also known as a "Template Button".
   // // The title is the button text, and the children are the templates to clone.
   // // https://github.com/jamalex/notion-py/blob/master/notion/block.py#L504
