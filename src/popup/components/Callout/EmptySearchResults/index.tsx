@@ -61,10 +61,9 @@ export const EmptySearchResultsCallout = ({
   );
   return (
     <div className="callout callout-info">
-      {/* TODO: i18n */}
       ℹ️ Always no results?{' '}
       <a href={helpsUrl} target="_blank" rel="noreferrer">
-        Go to the help page.
+        Try this step.
       </a>
     </div>
   );

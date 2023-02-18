@@ -1,9 +1,66 @@
-import { cleanup, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import React from 'react';
 import Item from '.';
+import { fakeStorage } from '../../../../test/chrome/fakeStorage';
 import { $$ } from '../../../../test/helpers';
-import { ICON_TYPE } from '../../constants';
+import { ICON_TYPE, MATCH_TAG } from '../../constants';
 import { BLOCK_TYPE, TABLE_TYPE } from '../../search/Record/constants';
+import { setHighlight } from '../Item/utils';
+
+describe('setHighlight', () => {
+  test.each([
+    {
+      name: 'basic',
+      input: {
+        text: 'foo bar baz foobar',
+        query: 'bar',
+      },
+      expected: [
+        'foo ',
+        <em key="1">bar</em>,
+        ' baz foo',
+        <em key="3">bar</em>,
+        '',
+      ],
+    },
+    {
+      name: 'empty query',
+      input: {
+        text: 'foo bar baz',
+        query: '',
+      },
+      expected: [<span key="0">foo bar baz</span>],
+    },
+    {
+      name: 'rm match tag',
+      input: {
+        text: `foo <${MATCH_TAG}>bar</${MATCH_TAG}> <${MATCH_TAG}>baz</${MATCH_TAG}>`,
+        query: '',
+      },
+      expected: [<span key="0">foo bar baz</span>],
+    },
+    {
+      name: 'multiple queries',
+      input: {
+        text: 'foo bar baz foobar',
+        query: 'foo bar',
+      },
+      expected: [
+        '',
+        <em key="1">foo</em>,
+        ' ',
+        <em key="3">bar</em>,
+        ' baz ',
+        <em key="5">foo</em>,
+        '',
+        <em key="7">bar</em>,
+        '',
+      ],
+    },
+  ])('$name', ({ input, expected }) => {
+    expect(setHighlight(input.text, input.query)).toEqual(expected);
+  });
+});
 
 const BLOCK = (n: number) => ({
   id: 'block-id' + String(n),
@@ -13,14 +70,14 @@ const BLOCK = (n: number) => ({
 });
 
 afterEach(() => {
-  cleanup();
+  fakeStorage.clear();
   jest.clearAllMocks();
 });
 afterAll(() => {
   jest.restoreAllMocks();
 });
 
-describe('dirs', () => {
+describe('filters dirs', () => {
   test.each([
     {
       name: '1 dir',
@@ -74,6 +131,7 @@ describe('dirs', () => {
       expect(spy).toHaveBeenCalledTimes(expected.hasConsoleCalledTimes);
       expect(spy).toHaveBeenCalledWith(
         expect.stringMatching(/^dir.record is undefined in Item component/),
+        expect.any(Object),
       );
     }
   });
