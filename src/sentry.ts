@@ -1,5 +1,5 @@
-import * as Sentry from '@sentry/browser';
 import { CaptureConsole as CaptureConsoleIntegration } from '@sentry/integrations';
+import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
 
 export const initSentry = () => {
