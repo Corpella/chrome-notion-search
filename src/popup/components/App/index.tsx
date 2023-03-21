@@ -29,8 +29,8 @@ export const App = () => {
   return (
     <div className="link-button-container">
       <button
-        onClick={(event) => {
-          selectAndLinkWorkspace();
+        onClick={async (event) => {
+          await selectAndLinkWorkspace();
           event.preventDefault();
         }}
       >
