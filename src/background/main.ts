@@ -15,20 +15,3 @@ chrome.commands.onCommand.addListener((command) => {
       throw new Error(`Unknown command: ${command}`);
   }
 });
-
-// TODO: rm this code later
-const KEYBOARD_SHORTCUT_CHANGED_VERSION = '2.0.0';
-const LESS_THAN = -1;
-
-chrome.runtime.onInstalled.addListener(({ reason, previousVersion }) => {
-  if (reason === chrome.runtime.OnInstalledReason.UPDATE) {
-    if (!previousVersion) throw new Error('previousVersion is not defined');
-    if (
-      compareVersions(previousVersion, KEYBOARD_SHORTCUT_CHANGED_VERSION) ===
-      LESS_THAN
-    )
-      chrome.tabs.create({
-        url: chrome.runtime.getURL('notices/2_0_0.html'),
-      });
-  }
-});
