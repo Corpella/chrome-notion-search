@@ -7,14 +7,12 @@ export const SearchBox = ({
   query,
   setQuery,
   workspaceName,
-  fromStorage,
-  setFromStorage,
+  hasLastSearchQuery,
 }: {
   query: string;
   setQuery: SetQueryParam<string>;
   workspaceName: string;
-  fromStorage: boolean;
-  setFromStorage: React.Dispatch<React.SetStateAction<boolean>>;
+  hasLastSearchQuery: boolean;
 }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -32,13 +30,9 @@ export const SearchBox = ({
     document.body.appendChild(style);
   }, []);
 
-  // TODO: rm after refactoring
   useEffect(() => {
-    if (fromStorage && inputRef.current) {
-      setFromStorage(false);
-      inputRef.current.select();
-    }
-  }, [fromStorage]);
+    if (hasLastSearchQuery && inputRef.current) inputRef.current.select();
+  }, [hasLastSearchQuery]);
 
   return (
     <div className="search-box">

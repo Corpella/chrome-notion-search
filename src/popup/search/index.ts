@@ -213,7 +213,7 @@ export const search = async ({
   };
 
   if (savesToStorage) {
-    const data: SearchResultCache = { query, searchResult };
+    const data: LastSearchResult = { query, searchResult };
     await storage.set({
       [`${workspaceId}-${STORAGE_KEY.LAST_SEARCHED}`]: data,
     });
