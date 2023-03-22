@@ -214,8 +214,7 @@ export const search = async ({
 
   if (savesToStorage) {
     const data: SearchResultCache = { query, searchResult };
-    // Failing to set is not fatal, so no error handling
-    storage.set({
+    await storage.set({
       [`${workspaceId}-${STORAGE_KEY.LAST_SEARCHED}`]: data,
     });
   }

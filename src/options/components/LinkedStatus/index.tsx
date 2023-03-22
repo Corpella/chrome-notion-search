@@ -33,10 +33,10 @@ export const LinkedStatus = () => {
               <p>
                 <button
                   className="btn btn-outline-danger"
-                  onClick={() => {
+                  onClick={async () => {
                     const ok = confirm('Disconnect from Notion?');
                     if (!ok) return;
-                    unlinkWorkspace();
+                    await unlinkWorkspace();
                   }}
                 >
                   Disconnect from {workspace.name}

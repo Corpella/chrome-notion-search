@@ -4,7 +4,8 @@
     "browser": true
   },
   "parserOptions": {
-    "ecmaVersion": "latest"
+    "ecmaVersion": "latest",
+    "project": "./tsconfig.json"
   },
   "extends": [
     "eslint:recommended",
@@ -24,6 +25,10 @@
   "rules": {
     "no-trailing-spaces": "error",
     "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/no-floating-promises": [
+      "error",
+      { "ignoreIIFE": true }
+    ],
     "react-hooks/exhaustive-deps": "off",
     "jest/valid-title": "off",
     "jest/no-conditional-expect": "off"

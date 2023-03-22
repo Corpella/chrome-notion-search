@@ -69,8 +69,8 @@ const BLOCK = (n: number) => ({
   type: BLOCK_TYPE.PAGE,
 });
 
-afterEach(() => {
-  fakeStorage.clear();
+afterEach(async () => {
+  await fakeStorage.clear();
   jest.clearAllMocks();
 });
 afterAll(() => {

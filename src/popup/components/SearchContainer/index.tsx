@@ -67,7 +67,7 @@ export const SearchContainer = ({ workspace }: { workspace: Workspace }) => {
       }
 
       if (query.trim() === '')
-        storage.remove(`${workspace.id}-${STORAGE_KEY.LAST_SEARCHED}`);
+        await storage.remove(`${workspace.id}-${STORAGE_KEY.LAST_SEARCHED}`);
 
       try {
         const searchResult = await debouncedSearch({
