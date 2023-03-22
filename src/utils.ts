@@ -42,3 +42,9 @@ export const handleClickLocalResource = async ({
     await chrome.tabs.update(currentTab.id, { url });
   }
 };
+
+export const replaceCssUrls = (css: string) =>
+  css.replace(
+    /url\(["']?(.+?)["']?\)/g,
+    `url('${chrome.runtime.getURL('$1')}')`,
+  );

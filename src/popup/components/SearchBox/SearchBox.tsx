@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import './styles.pcss';
-
-const INPUT_CLASS_NAME = 'query';
+import { replaceCssUrls } from '../../../utils';
+import css from './styles.pcss?inline';
 
 export const SearchBox = ({
   query,
@@ -18,15 +17,7 @@ export const SearchBox = ({
 
   useEffect(() => {
     const style = document.createElement('style');
-    style.appendChild(
-      document.createTextNode(
-        `.${INPUT_CLASS_NAME}::-webkit-search-cancel-button {
-          background-image: url("${chrome.runtime.getURL(
-            'images/clear-query.svg',
-          )}");
-        }`,
-      ),
-    );
+    style.appendChild(document.createTextNode(replaceCssUrls(css as string)));
     document.body.appendChild(style);
   }, []);
 
@@ -43,7 +34,7 @@ export const SearchBox = ({
       <input
         ref={inputRef}
         type="search"
-        className={INPUT_CLASS_NAME}
+        className="query"
         placeholder={chrome.i18n.getMessage('searchPlaceholder', workspaceName)}
         autoFocus
         onChange={(event) => setQuery(event.target.value)}
