@@ -5,9 +5,9 @@ import { axios } from '../../../axios';
 import * as utils from '../../../utils';
 import { SORT_BY } from '../../constants';
 import { BLOCK_TYPE, TABLE_TYPE } from '../../search/Record/constants';
-import * as emptySearchResultsCallout from '../Callout/EmptySearchResults';
-import { QueryParamProvider } from '../QueryParamProvider';
-import { SearchContainer } from '../SearchContainer';
+import * as emptySearchResultsCallout from '../Callout/EmptySearchResults/EmptySearchResults';
+import { QueryParamProvider } from '../QueryParamProvider/QueryParamProvider';
+import { SearchContainer } from '../SearchContainer/SearchContainer';
 
 beforeEach(() => {
   jest
