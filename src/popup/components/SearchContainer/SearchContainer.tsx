@@ -10,12 +10,12 @@ import { storage } from '../../../storage';
 import { alertError, isPopup as isPopupFn } from '../../../utils';
 import { SORT_BY, STORAGE_KEY } from '../../constants';
 import { debouncedSearch, EmptySearchResultsError } from '../../search';
-import { EmptySearchResultsCallout } from '../Callout/EmptySearchResults';
-import { SearchBox } from '../SearchBox';
-import { Sort } from '../Sorts';
-import { Filter } from './../Filters';
-import { Footer } from './../Footer';
-import { Items } from './../Items';
+import { EmptySearchResultsCallout } from '../Callout/EmptySearchResults/EmptySearchResults';
+import { SearchBox } from '../SearchBox/SearchBox';
+import { Sort } from '../Sorts/Sorts';
+import { Filter } from './../Filters/Filters';
+import { Footer } from './../Footer/Footer';
+import { Items } from './../Items/Items';
 import './styles.pcss';
 
 export const SearchContainer = ({ workspace }: { workspace: Workspace }) => {

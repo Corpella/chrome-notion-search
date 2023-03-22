@@ -1,8 +1,9 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { initSentry } from '../sentry';
-import { App } from './components/App';
-import { QueryParamProvider } from './components/QueryParamProvider';
+import { App } from './components/App/App';
+import { QueryParamProvider } from './components/QueryParamProvider/QueryParamProvider';
+
 initSentry();
 
 const reactRoot = document.querySelector('.react-root');
