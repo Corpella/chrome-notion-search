@@ -1,8 +1,8 @@
 {
   "version": "2.1.1",
   "scripts": {
-    "build": "pnpm run clean && vite build",
     "dev": "pnpm run clean && ENABLES_SENTRY=false vite",
+    "build": "pnpm run clean && vite build",
     "visualize": "pnpm run clean && ENABLES_VISUALIZER=true vite build && open stats.html",
     "clean": "rimraf dist dist.zip",
     "test": "jest",

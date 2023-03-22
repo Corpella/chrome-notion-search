@@ -23,7 +23,6 @@ export default defineConfig({
       input: {
         debug: 'debug.html',
         ...getHtmlFiles('helps'),
-        ...getHtmlFiles('notices'),
       },
     },
   },
