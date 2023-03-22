@@ -13,8 +13,8 @@ Just click this extension's icon and your search term in popup.
 ## How to Build
 
 ```
-yarn install
-yarn run build
+pnpm install
+pnpm run build
 ```
 
 ## Release Notes

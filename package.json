@@ -1,12 +1,12 @@
 {
   "version": "2.1.0",
   "scripts": {
-    "build": "yarn run clean && vite build",
-    "dev": "yarn run clean && ENABLES_SENTRY=false vite",
-    "visualize": "yarn run clean && ENABLES_VISUALIZER=true vite build && open stats.html",
+    "build": "pnpm run clean && vite build",
+    "dev": "pnpm run clean && ENABLES_SENTRY=false vite",
+    "visualize": "pnpm run clean && ENABLES_VISUALIZER=true vite build && open stats.html",
     "clean": "rimraf dist dist.zip",
     "test": "jest",
-    "release": "yarn install && yarn run build && zip -r dist.zip dist",
+    "release": "pnpm install && pnpm run build && zip -r dist.zip dist",
     "lint:eslint": "eslint './{src,test}/**/*.{ts,tsx}'",
     "lint-fix:eslint": "eslint --fix './{src,test}/**/*.{ts,tsx}'",
     "lint:prettier": "prettier --check .",
