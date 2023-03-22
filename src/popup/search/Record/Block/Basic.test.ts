@@ -63,6 +63,8 @@ describe('canBeDir', () => {
     { input: BLOCK_TYPE.HEADER, expected: false },
     { input: BLOCK_TYPE.SUB_HEADER, expected: false },
     { input: BLOCK_TYPE.SUB_SUB_HEADER, expected: false },
+    { input: BLOCK_TYPE.TO_DO, expected: false },
+    { input: BLOCK_TYPE.NUMBERED_LIST, expected: false },
     { input: BLOCK_TYPE.TEXT, expected: false },
   ])('$input → $expected', ({ input, expected }) => {
     jest.spyOn(console, 'error').mockImplementation(() => {});
