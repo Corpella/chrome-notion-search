@@ -53,13 +53,13 @@ test('filter options', async () => {
   const elem = $('.test-filter-only-title');
   expect(elem).not.toHaveClass('selected');
 
-  // やや冗長だが、spy.mock.lastCall を比較するよりも、コケた場合の出力が親切（そもそも何回呼ばれたとか教えてくれる）
+  // Somewhat redundant, but the output in case of failure is more helpful than comparing `spy.mock.lastCall`
+  // (This tells us how many times it was called).
   expect(spy).toHaveBeenLastCalledWith(
     expect.any(String),
     expect.not.objectContaining({
       filters: expect.objectContaining({ navigableBlockContentOnly: true }),
     }),
-    { signal: expect.any(AbortSignal) },
   );
 
   await user.click(elem);
@@ -70,7 +70,6 @@ test('filter options', async () => {
     expect.objectContaining({
       filters: expect.objectContaining({ navigableBlockContentOnly: true }),
     }),
-    { signal: expect.any(AbortSignal) },
   );
 });
 
@@ -140,7 +139,6 @@ test('sort options', async () => {
       expect.objectContaining({
         sort: expect.objectContaining(expected),
       }),
-      { signal: expect.any(AbortSignal) },
     );
   }
 });

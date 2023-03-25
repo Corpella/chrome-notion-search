@@ -53,6 +53,8 @@ export const SearchContainer = memo(function SearchContainer({
 
   // search
   useEffect(() => {
+    let ignore = false;
+
     (async () => {
       try {
         if (isFirstRendering.current) {
@@ -75,6 +77,8 @@ export const SearchContainer = memo(function SearchContainer({
           savesToStorage: isPopup && hasQuery,
           workspaceId: workspace.id,
         });
+        if (ignore) return;
+
         setSearchResult(searchResult);
         setUsedQuery(query);
         if (searchResult.total > 0) setErrorToDiplay(undefined);
@@ -90,6 +94,9 @@ export const SearchContainer = memo(function SearchContainer({
         }
       }
     })();
+    return () => {
+      ignore = true;
+    };
   }, [trimmedQuery, sortBy, filterByOnlyTitles]);
 
   return (
