@@ -42,7 +42,7 @@ export const useWorkspace = () => {
           new Error(
             'Failed to connect Notion. Please redo the operation later.',
             { cause: error },
-          ),
+         ),
         );
         return;
       }

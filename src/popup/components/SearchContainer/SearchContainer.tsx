@@ -1,5 +1,5 @@
 import { AxiosError, CanceledError as AxiosCanceledError } from 'axios';
-import React, { memo, useEffect, useMemo, useState } from 'react';
+import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
 import {
   BooleanParam,
   StringParam,
@@ -41,12 +41,14 @@ export const SearchContainer = memo(function SearchContainer({
   const [searchResult, setSearchResult] = useState<SearchResult | undefined>(
     lastSearchResult?.searchResult,
   );
+
   const [errorToDisplay, setErrorToDiplay] = useState<Error | undefined>(
     undefined,
   );
   const trimmedQuery = query.trim();
   const hasQuery = trimmedQuery.length > 0;
   const isPopup = useMemo(isPopupFn, []);
+  const isFirstRendering = useRef(true);
 
   // search
   useEffect(() => {
@@ -58,6 +60,11 @@ export const SearchContainer = memo(function SearchContainer({
       // }
 
       try {
+        if (isFirstRendering.current) {
+          isFirstRendering.current = false;
+          if (lastSearchResult) return;
+        }
+
         const searchResult = await debouncedSearch({
           query,
           sortBy:

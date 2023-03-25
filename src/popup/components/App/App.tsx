@@ -29,7 +29,7 @@ export const App = () => {
         await selectAndLinkWorkspace();
       }
 
-      console.log(workspace, isPopup);
+      // FIXME これ、selectAndLinkWorkspace() で発火しなくない？
       if (workspace && isPopup) {
         const lastSearchResult = (await storage.get(
           `${workspace.id}-${STORAGE_KEY.LAST_SEARCHED}`,
@@ -44,6 +44,7 @@ export const App = () => {
     return (
       <QueryParamProvider>
         <SearchContainer
+          key={JSON.stringify(lastSearchResult)}
           workspace={workspace}
           lastSearchResult={lastSearchResult}
         />
