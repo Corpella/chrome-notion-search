@@ -1,4 +1,4 @@
-import { Record } from '../Record';
+import { Record } from '../Record/Record';
 
 export class Team extends Record {
   public record: SearchApi.Team;

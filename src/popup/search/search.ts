@@ -5,9 +5,9 @@ import { storage } from '../../storage';
 
 import { ICON_TYPE, SEARCH_LIMIT, SORT_BY, STORAGE_KEY } from '../constants';
 import { AbortControllers } from './AbortsController';
-import { Record } from './Record';
-import { Block } from './Record/Block';
+import { Block } from './Record/Block/Block';
 import { createBlock, createRecord } from './Record/factory';
+import { Record } from './Record/Record';
 
 const PATH = '/search';
 const DEBOUNCE_TIME = 150;

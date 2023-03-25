@@ -1,4 +1,4 @@
-import { Block } from './Block';
+import { Block } from './Block/Block';
 import { CollectionViewBlock } from './Block/CollectionView';
 import { Collection } from './Collection';
 import { BLOCK_TYPE, TABLE_TYPE } from './constants';

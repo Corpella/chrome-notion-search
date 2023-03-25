@@ -2,9 +2,7 @@ import { act, cleanup, render } from '@testing-library/react';
 import React from 'react';
 import { $, userEventSetup } from '../../../../test/helpers';
 import { axios } from '../../../axios';
-import * as utils from '../../../utils';
 import { SORT_BY } from '../../constants';
-import { BLOCK_TYPE, TABLE_TYPE } from '../../search/Record/constants';
 import * as emptySearchResultsCallout from '../Callout/EmptySearchResults/EmptySearchResults';
 import { QueryParamProvider } from '../QueryParamProvider/QueryParamProvider';
 import { SearchContainer } from '../SearchContainer/SearchContainer';
@@ -45,7 +43,10 @@ test('filter options', async () => {
 
   await renderAndWaitEffect(
     <QueryParamProvider>
-      <SearchContainer workspace={{ id: 'space-id', name: 'space-name' }} />
+      <SearchContainer
+        workspace={{ id: 'space-id', name: 'space-name' }}
+        lastSearchResult={undefined}
+      />
     </QueryParamProvider>,
   );
 
@@ -83,7 +84,10 @@ test('sort options', async () => {
 
   await renderAndWaitEffect(
     <QueryParamProvider>
-      <SearchContainer workspace={{ id: 'space-id', name: 'space-name' }} />
+      <SearchContainer
+        workspace={{ id: 'space-id', name: 'space-name' }}
+        lastSearchResult={undefined}
+      />
     </QueryParamProvider>,
   );
 
@@ -139,62 +143,4 @@ test('sort options', async () => {
       { signal: expect.any(AbortSignal) },
     );
   }
-});
-
-describe('gets last search result', () => {
-  const query = 'test';
-  const user = userEventSetup({
-    advanceTimers: jest.runOnlyPendingTimers,
-  });
-  const blockId = 'block-id';
-
-  beforeEach(() => {
-    jest.spyOn(axios, 'post').mockResolvedValue({
-      data: {
-        results: [{ id: blockId }],
-        recordMap: {
-          block: {
-            [blockId]: {
-              value: {
-                id: blockId,
-                parent_id: 'parent-id',
-                parent_table: TABLE_TYPE.WORKSPACE,
-                type: BLOCK_TYPE.PAGE,
-              },
-            },
-          },
-        },
-        total: 1,
-      },
-    });
-  });
-
-  test.each([
-    { input: { isPopup: false }, expected: '' },
-    { input: { isPopup: true }, expected: query },
-  ])('isPopup: $input', async ({ input, expected }) => {
-    const container = (
-      <QueryParamProvider>
-        <SearchContainer workspace={{ id: 'space-id', name: 'space-name' }} />
-      </QueryParamProvider>
-    );
-    jest.spyOn(utils, 'isPopup').mockReturnValue(input.isPopup);
-
-    const { unmount } = await act(() => renderAndWaitEffect(container));
-    let inputElem = $<HTMLInputElement>('.query');
-    expect(inputElem).toHaveValue('');
-
-    await user.type(inputElem, query);
-    unmount();
-
-    history.replaceState(null, '', '/');
-
-    await act(() => render(container));
-    inputElem = $<HTMLInputElement>('.query');
-    expect(inputElem).toHaveValue(expected);
-    /* eslint  jest/no-conditional-expect: 0 */
-    if (expected) {
-      expect($<HTMLInputElement>(`.test-item-${blockId}`)).toBeInTheDocument();
-    }
-  });
 });

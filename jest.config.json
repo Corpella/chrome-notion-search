@@ -3,7 +3,7 @@
     "\\.[jt]sx?$": ["ts-jest"]
   },
   "moduleNameMapper": {
-    "\\.p?css$": "jest-transform-stub"
+    ".+\\.p?css(\\?inline)?$": "<rootDir>/src/__mocks__/cssMock.ts"
   },
   "setupFilesAfterEnv": ["./test/jest.setup.ts"],
   "testEnvironment": "jest-environment-jsdom"

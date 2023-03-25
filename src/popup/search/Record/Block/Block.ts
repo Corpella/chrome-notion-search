@@ -1,4 +1,4 @@
-import { Record } from '../../Record';
+import { Record } from '../../Record/Record';
 
 export abstract class Block extends Record {
   public record: SearchApi.Block;

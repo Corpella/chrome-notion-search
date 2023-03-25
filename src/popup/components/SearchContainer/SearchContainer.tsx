@@ -8,7 +8,7 @@ import {
 } from 'use-query-params';
 import { alertError, isPopup as isPopupFn } from '../../../utils';
 import { SORT_BY } from '../../constants';
-import { debouncedSearch, EmptySearchResultsError } from '../../search';
+import { debouncedSearch, EmptySearchResultsError } from '../../search/search';
 import { EmptySearchResultsCallout } from '../Callout/EmptySearchResults/EmptySearchResults';
 import { SearchBox } from '../SearchBox/SearchBox';
 import { Sort } from '../Sorts/Sorts';

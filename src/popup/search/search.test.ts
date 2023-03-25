@@ -1,9 +1,9 @@
-import { search } from '.';
 import { axios } from '../../axios';
 import { NOTION_BASE_URL } from '../../constants';
 import { ICON_TYPE, SORT_BY } from '../constants';
-import { Block } from './Record/Block';
+import { Block } from './Record/Block/Block';
 import { BLOCK_TYPE, TABLE_TYPE } from './Record/constants';
+import { search } from './search';
 
 afterEach(() => jest.restoreAllMocks());
 
