@@ -6,8 +6,9 @@ import {
   useQueryParam,
   withDefault,
 } from 'use-query-params';
+import { storage } from '../../../storage';
 import { alertError, isPopup as isPopupFn } from '../../../utils';
-import { SORT_BY } from '../../constants';
+import { SORT_BY, STORAGE_KEY } from '../../constants';
 import { debouncedSearch, EmptySearchResultsError } from '../../search/search';
 import { EmptySearchResultsCallout } from '../Callout/EmptySearchResults/EmptySearchResults';
 import { SearchBox } from '../SearchBox/SearchBox';
@@ -53,16 +54,15 @@ export const SearchContainer = memo(function SearchContainer({
   // search
   useEffect(() => {
     (async () => {
-      // FIXME: どうしようねこれ ... 。
-      // if (query.trim() === '') {
-      //   console.log('## clear store');
-      //   await storage.remove(`${workspace.id}-${STORAGE_KEY.LAST_SEARCHED}`);
-      // }
-
       try {
         if (isFirstRendering.current) {
           isFirstRendering.current = false;
           if (lastSearchResult) return;
+        } else {
+          if (query.trim() === '')
+            await storage.remove(
+              `${workspace.id}-${STORAGE_KEY.LAST_SEARCHED}`,
+            );
         }
 
         const searchResult = await debouncedSearch({
