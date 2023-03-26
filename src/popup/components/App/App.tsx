@@ -24,12 +24,13 @@ export const App = () => {
 
   useEffect(() => {
     (async () => {
-      if (hasGotWorkspace && !workspace) {
-        console.info('will link automatically');
+      if (!hasGotWorkspace) return;
+
+      if (!workspace) {
+        console.info('link a workspace automatically');
         await selectAndLinkWorkspace();
       }
 
-      // FIXME これ、selectAndLinkWorkspace() で発火しなくない？
       if (workspace && isPopup) {
         const lastSearchResult = (await storage.get(
           `${workspace.id}-${STORAGE_KEY.LAST_SEARCHED}`,
