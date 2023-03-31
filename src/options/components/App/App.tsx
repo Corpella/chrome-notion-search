@@ -4,7 +4,7 @@ import { LocalResourceLink } from '../../../components/LocalResourceLink';
 import { LinkedStatus } from '../LinkedStatus/LinkedStatus';
 
 export const App = () => (
-  <div className="container">
+  <div className="container-md">
     <h1 className="py-2">Options</h1>
     <table className="table">
       <tbody>
@@ -29,8 +29,8 @@ export const App = () => (
       </tbody>
     </table>
     <hr className="mt-5" />
-    <div className="container">
-      <p>About Notion Search</p>
+    <div>
+      <h2 className="fs-5">About Notion Search</h2>
       <ul>
         <li>
           <a
