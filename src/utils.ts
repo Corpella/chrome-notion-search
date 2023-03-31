@@ -11,7 +11,6 @@ export const alertError = (message: string, error: unknown) => {
 };
 
 export const isPopup = () => new URL(location.href).searchParams.has('popup');
-// export const isPopup = () => true; // FIXME
 
 export const handleClickLocalResource = async ({
   event,
