@@ -1,4 +1,4 @@
-import { Record } from '../Record';
+import { Record } from '../Record/Record';
 
 export class Collection extends Record {
   public record: SearchApi.Collection;

@@ -2,12 +2,10 @@ import { act, cleanup, render } from '@testing-library/react';
 import React from 'react';
 import { $, userEventSetup } from '../../../../test/helpers';
 import { axios } from '../../../axios';
-import * as utils from '../../../utils';
 import { SORT_BY } from '../../constants';
-import { BLOCK_TYPE, TABLE_TYPE } from '../../search/Record/constants';
-import * as emptySearchResultsCallout from '../Callout/EmptySearchResults';
-import { QueryParamProvider } from '../QueryParamProvider';
-import { SearchContainer } from '../SearchContainer';
+import * as emptySearchResultsCallout from '../Callout/EmptySearchResults/EmptySearchResults';
+import { QueryParamProvider } from '../QueryParamProvider/QueryParamProvider';
+import { SearchContainer } from '../SearchContainer/SearchContainer';
 
 beforeEach(() => {
   jest
@@ -45,20 +43,23 @@ test('filter options', async () => {
 
   await renderAndWaitEffect(
     <QueryParamProvider>
-      <SearchContainer workspace={{ id: 'space-id', name: 'space-name' }} />
+      <SearchContainer
+        workspace={{ id: 'space-id', name: 'space-name' }}
+        lastSearchResult={undefined}
+      />
     </QueryParamProvider>,
   );
 
   const elem = $('.test-filter-only-title');
   expect(elem).not.toHaveClass('selected');
 
-  // やや冗長だが、spy.mock.lastCall を比較するよりも、コケた場合の出力が親切（そもそも何回呼ばれたとか教えてくれる）
+  // Somewhat redundant, but the output in case of failure is more helpful than comparing `spy.mock.lastCall`
+  // (This tells us how many times it was called).
   expect(spy).toHaveBeenLastCalledWith(
     expect.any(String),
     expect.not.objectContaining({
       filters: expect.objectContaining({ navigableBlockContentOnly: true }),
     }),
-    { signal: expect.any(AbortSignal) },
   );
 
   await user.click(elem);
@@ -69,7 +70,6 @@ test('filter options', async () => {
     expect.objectContaining({
       filters: expect.objectContaining({ navigableBlockContentOnly: true }),
     }),
-    { signal: expect.any(AbortSignal) },
   );
 });
 
@@ -83,7 +83,10 @@ test('sort options', async () => {
 
   await renderAndWaitEffect(
     <QueryParamProvider>
-      <SearchContainer workspace={{ id: 'space-id', name: 'space-name' }} />
+      <SearchContainer
+        workspace={{ id: 'space-id', name: 'space-name' }}
+        lastSearchResult={undefined}
+      />
     </QueryParamProvider>,
   );
 
@@ -136,65 +139,6 @@ test('sort options', async () => {
       expect.objectContaining({
         sort: expect.objectContaining(expected),
       }),
-      { signal: expect.any(AbortSignal) },
     );
   }
-});
-
-describe('gets last search result', () => {
-  const query = 'test';
-  const user = userEventSetup({
-    advanceTimers: jest.runOnlyPendingTimers,
-  });
-  const blockId = 'block-id';
-
-  beforeEach(() => {
-    jest.spyOn(axios, 'post').mockResolvedValue({
-      data: {
-        results: [{ id: blockId }],
-        recordMap: {
-          block: {
-            [blockId]: {
-              value: {
-                id: blockId,
-                parent_id: 'parent-id',
-                parent_table: TABLE_TYPE.WORKSPACE,
-                type: BLOCK_TYPE.PAGE,
-              },
-            },
-          },
-        },
-        total: 1,
-      },
-    });
-  });
-
-  test.each([
-    { input: { isPopup: false }, expected: '' },
-    { input: { isPopup: true }, expected: query },
-  ])('isPopup: $input', async ({ input, expected }) => {
-    const container = (
-      <QueryParamProvider>
-        <SearchContainer workspace={{ id: 'space-id', name: 'space-name' }} />
-      </QueryParamProvider>
-    );
-    jest.spyOn(utils, 'isPopup').mockReturnValue(input.isPopup);
-
-    const { unmount } = await act(() => renderAndWaitEffect(container));
-    let inputElem = $<HTMLInputElement>('.query');
-    expect(inputElem).toHaveValue('');
-
-    await user.type(inputElem, query);
-    unmount();
-
-    history.replaceState(null, '', '/');
-
-    await act(() => render(container));
-    inputElem = $<HTMLInputElement>('.query');
-    expect(inputElem).toHaveValue(expected);
-    /* eslint  jest/no-conditional-expect: 0 */
-    if (expected) {
-      expect($<HTMLInputElement>(`.test-item-${blockId}`)).toBeInTheDocument();
-    }
-  });
 });

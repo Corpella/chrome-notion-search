@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../../common.css';
 import { LocalResourceLink } from '../../../components/LocalResourceLink';
-import { LinkedStatus } from '../LinkedStatus';
+import { LinkedStatus } from '../LinkedStatus/LinkedStatus';
 
 export const App = () => (
   <div className="container">

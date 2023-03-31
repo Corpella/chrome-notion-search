@@ -1,5 +1,5 @@
 import { BLOCK_TYPE, BLOCK_TYPE_MAP } from '../constants';
-import { Block } from './';
+import { Block } from './Block';
 import { isCollectionView } from './CollectionView';
 
 export class BasicBlock extends Block {

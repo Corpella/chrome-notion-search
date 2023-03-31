@@ -1,11 +1,11 @@
 import { render } from '@testing-library/react';
 import React from 'react';
-import Item from '.';
 import { fakeStorage } from '../../../../test/chrome/fakeStorage';
 import { $$ } from '../../../../test/helpers';
 import { ICON_TYPE, MATCH_TAG } from '../../constants';
 import { BLOCK_TYPE, TABLE_TYPE } from '../../search/Record/constants';
 import { setHighlight } from '../Item/utils';
+import Item from './Item';
 
 describe('setHighlight', () => {
   test.each([
@@ -69,8 +69,8 @@ const BLOCK = (n: number) => ({
   type: BLOCK_TYPE.PAGE,
 });
 
-afterEach(() => {
-  fakeStorage.clear();
+afterEach(async () => {
+  await fakeStorage.clear();
   jest.clearAllMocks();
 });
 afterAll(() => {

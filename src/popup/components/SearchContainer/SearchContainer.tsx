@@ -1,5 +1,5 @@
 import { AxiosError, CanceledError as AxiosCanceledError } from 'axios';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
 import {
   BooleanParam,
   StringParam,
@@ -9,19 +9,25 @@ import {
 import { storage } from '../../../storage';
 import { alertError, isPopup as isPopupFn } from '../../../utils';
 import { SORT_BY, STORAGE_KEY } from '../../constants';
-import { debouncedSearch, EmptySearchResultsError } from '../../search';
-import { EmptySearchResultsCallout } from '../Callout/EmptySearchResults';
-import { SearchBox } from '../SearchBox';
-import { Sort } from '../Sorts';
-import { Filter } from './../Filters';
-import { Footer } from './../Footer';
-import { Items } from './../Items';
+import { debouncedSearch, EmptySearchResultsError } from '../../search/search';
+import { EmptySearchResultsCallout } from '../Callout/EmptySearchResults/EmptySearchResults';
+import { SearchBox } from '../SearchBox/SearchBox';
+import { Sort } from '../Sorts/Sorts';
+import { Filter } from './../Filters/Filters';
+import { Footer } from './../Footer/Footer';
+import { Items } from './../Items/Items';
 import './styles.pcss';
 
-export const SearchContainer = ({ workspace }: { workspace: Workspace }) => {
+export const SearchContainer = memo(function SearchContainer({
+  workspace,
+  lastSearchResult,
+}: {
+  workspace: Workspace;
+  lastSearchResult: LastSearchResult | undefined;
+}) {
   const [query, setQuery] = useQueryParam(
     'query',
-    withDefault(StringParam, ''),
+    withDefault(StringParam, lastSearchResult?.query || ''),
   );
   const [sortBy, setSortBy] = useQueryParam(
     'sort_by',
@@ -32,44 +38,35 @@ export const SearchContainer = ({ workspace }: { workspace: Workspace }) => {
     withDefault(BooleanParam, false),
   );
 
-  const [usedQuery, setUsedQuery] = useState('');
+  const [usedQuery, setUsedQuery] = useState(lastSearchResult?.query || '');
   const [searchResult, setSearchResult] = useState<SearchResult | undefined>(
-    undefined,
+    lastSearchResult?.searchResult,
   );
+
   const [errorToDisplay, setErrorToDiplay] = useState<Error | undefined>(
     undefined,
   );
-  const [fromStorage, setFromStorage] = useState<boolean>(false);
-
   const trimmedQuery = query.trim();
   const hasQuery = trimmedQuery.length > 0;
-  const isFirstRendering = useRef(true);
   const isPopup = useMemo(isPopupFn, []);
+  const isFirstRendering = useRef(true);
 
   // search
   useEffect(() => {
+    let ignore = false;
+
     (async () => {
-      // get cache
-      if (isPopup && isFirstRendering.current) {
-        isFirstRendering.current = false;
-
-        const store = (await storage.get(
-          `${workspace.id}-${STORAGE_KEY.LAST_SEARCHED}`,
-        )) as SearchResultCache | undefined; // TODO: type guard
-
-        if (store) {
-          setQuery(store.query);
-          setFromStorage(true);
-          setUsedQuery(query);
-          setSearchResult(store.searchResult);
-          return;
-        }
-      }
-
-      if (query.trim() === '')
-        storage.remove(`${workspace.id}-${STORAGE_KEY.LAST_SEARCHED}`);
-
       try {
+        if (isFirstRendering.current) {
+          isFirstRendering.current = false;
+          if (lastSearchResult) return;
+        } else {
+          if (query.trim() === '')
+            await storage.remove(
+              `${workspace.id}-${STORAGE_KEY.LAST_SEARCHED}`,
+            );
+        }
+
         const searchResult = await debouncedSearch({
           query,
           sortBy:
@@ -80,6 +77,8 @@ export const SearchContainer = ({ workspace }: { workspace: Workspace }) => {
           savesToStorage: isPopup && hasQuery,
           workspaceId: workspace.id,
         });
+        if (ignore) return;
+
         setSearchResult(searchResult);
         setUsedQuery(query);
         if (searchResult.total > 0) setErrorToDiplay(undefined);
@@ -95,6 +94,9 @@ export const SearchContainer = ({ workspace }: { workspace: Workspace }) => {
         }
       }
     })();
+    return () => {
+      ignore = true;
+    };
   }, [trimmedQuery, sortBy, filterByOnlyTitles]);
 
   return (
@@ -103,9 +105,8 @@ export const SearchContainer = ({ workspace }: { workspace: Workspace }) => {
         <SearchBox
           query={query}
           setQuery={setQuery}
-          fromStorage={fromStorage}
-          setFromStorage={setFromStorage}
           workspaceName={workspace.name}
+          hasLastSearchQuery={!!lastSearchResult}
         />
         {errorToDisplay &&
           errorToDisplay instanceof EmptySearchResultsError && (
@@ -124,4 +125,4 @@ export const SearchContainer = ({ workspace }: { workspace: Workspace }) => {
       </main>
     </div>
   );
-};
+});

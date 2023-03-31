@@ -4,10 +4,9 @@ import { NOTION_BASE_URL } from '../../constants';
 import { storage } from '../../storage';
 
 import { ICON_TYPE, SEARCH_LIMIT, SORT_BY, STORAGE_KEY } from '../constants';
-import { AbortControllers } from './AbortsController';
-import { Record } from './Record';
-import { Block } from './Record/Block';
+import { Block } from './Record/Block/Block';
 import { createBlock, createRecord } from './Record/factory';
+import { Record } from './Record/Record';
 
 const PATH = '/search';
 const DEBOUNCE_TIME = 150;
@@ -15,8 +14,6 @@ const ICON_WIDTH = 40;
 const TEXT_NO_TITLE = 'Untitled';
 
 export class EmptySearchResultsError extends Error {}
-
-const AbortsController = new AbortControllers();
 
 const getDir = (
   dirs: Dir[],
@@ -123,38 +120,28 @@ export const search = async ({
       throw new Error(`Unknown sort option: ${sortBy}`);
   }
 
-  const [abortController, current] = AbortsController.create(trimmedQuery);
-
   const res = (
-    await axios.post<SearchApiResponse>(
-      PATH,
-      {
-        type: 'BlocksInSpace',
-        query: trimmedQuery,
-        spaceId: workspaceId,
-        limit: SEARCH_LIMIT,
-        filters: {
-          isDeletedOnly: false,
-          excludeTemplates: false,
-          isNavigableOnly: false,
-          requireEditPermissions: false,
-          ancestors: [],
-          createdBy: [],
-          editedBy: [],
-          lastEditedTime: {},
-          createdTime: {},
-          ...(filterByOnlyTitles ? { navigableBlockContentOnly: true } : {}),
-        },
-        sort: sortOptions,
-        source: 'quick_find_input_change',
+    await axios.post<SearchApiResponse>(PATH, {
+      type: 'BlocksInSpace',
+      query: trimmedQuery,
+      spaceId: workspaceId,
+      limit: SEARCH_LIMIT,
+      filters: {
+        isDeletedOnly: false,
+        excludeTemplates: false,
+        isNavigableOnly: false,
+        requireEditPermissions: false,
+        ancestors: [],
+        createdBy: [],
+        editedBy: [],
+        lastEditedTime: {},
+        createdTime: {},
+        ...(filterByOnlyTitles ? { navigableBlockContentOnly: true } : {}),
       },
-      {
-        signal: abortController.signal,
-      },
-    )
+      sort: sortOptions,
+      source: 'quick_find_input_change',
+    })
   ).data;
-
-  AbortsController.abortPast(current);
 
   // Known issue:
   //   In tab mode, the axios cache remains
@@ -213,9 +200,8 @@ export const search = async ({
   };
 
   if (savesToStorage) {
-    const data: SearchResultCache = { query, searchResult };
-    // Failing to set is not fatal, so no error handling
-    storage.set({
+    const data: LastSearchResult = { query, searchResult };
+    await storage.set({
       [`${workspaceId}-${STORAGE_KEY.LAST_SEARCHED}`]: data,
     });
   }
