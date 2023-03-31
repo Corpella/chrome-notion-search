@@ -1,6 +1,6 @@
 import { Collection } from '../Collection';
 import { BLOCK_TYPE_IS_COLLECTION_VIEW } from '../constants';
-import { Block } from './';
+import { Block } from './Block';
 
 export const isCollectionView = (
   block: SearchApi.Block,

@@ -21,7 +21,7 @@ type SearchResult = {
   total: number;
 };
 
-type SearchResultCache = {
+type LastSearchResult = {
   query: string;
   searchResult: SearchResult;
 };

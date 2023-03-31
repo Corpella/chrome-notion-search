@@ -1,10 +1,10 @@
-import { Record } from '.';
-import { Block } from './Block';
 import { BasicBlock } from './Block/Basic';
+import { Block } from './Block/Block';
 import { CollectionViewBlock, isCollectionView } from './Block/CollectionView';
 import { Collection } from './Collection';
 import { TABLE_TYPE } from './constants';
 import { RecordError, RecordNotFoundError, RecordTypeError } from './errors';
+import { Record } from './Record';
 import { Team } from './Team';
 
 // NOTE: ログ指針：
