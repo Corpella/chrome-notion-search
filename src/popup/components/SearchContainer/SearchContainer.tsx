@@ -1,4 +1,4 @@
-import { CanceledError as AxiosCanceledError, AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
 import {
   BooleanParam,
@@ -56,18 +56,17 @@ export const SearchContainer = memo(function SearchContainer({
     let ignore = false;
 
     (async () => {
-      try {
-        if (isFirstRendering.current) {
-          isFirstRendering.current = false;
-          if (lastSearchResult) return;
-        } else {
-          if (query.trim() === '')
-            await storage.remove(
-              `${workspace.id}-${STORAGE_KEY.LAST_SEARCHED}`,
-            );
-        }
+      if (isFirstRendering.current) {
+        isFirstRendering.current = false;
+        if (lastSearchResult) return;
+      } else {
+        if (query.trim() === '')
+          await storage.remove(`${workspace.id}-${STORAGE_KEY.LAST_SEARCHED}`);
+      }
 
-        const searchResult = await debouncedSearch({
+      let searchResult;
+      try {
+        searchResult = await debouncedSearch({
           query,
           sortBy:
             !hasQuery && sortBy === SORT_BY.RELEVANCE // ad hoc: worthless condition
@@ -77,22 +76,23 @@ export const SearchContainer = memo(function SearchContainer({
           savesToStorage: isPopup && hasQuery,
           workspaceId: workspace.id,
         });
-        if (ignore) return;
-
-        setSearchResult(searchResult);
-        setUsedQuery(query);
-        if (searchResult.total > 0) setErrorToDiplay(undefined);
       } catch (error) {
         if (error instanceof EmptySearchResultsError) {
           setErrorToDiplay(error);
-        } else if (!(error instanceof AxiosCanceledError)) {
+          return;
+        } else {
           handleError(
             error instanceof AxiosError ? 'Network error' : error + '',
             error,
           );
-          throw error;
+          throw error; // TODO
         }
       }
+      if (ignore) return;
+
+      setSearchResult(searchResult);
+      setUsedQuery(query);
+      if (searchResult.total > 0) setErrorToDiplay(undefined);
     })();
     return () => {
       ignore = true;
