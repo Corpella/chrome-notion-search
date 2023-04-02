@@ -7,7 +7,7 @@ import {
   withDefault,
 } from 'use-query-params';
 import { storage } from '../../../storage';
-import { alertError, isPopup as isPopupFn } from '../../../utils';
+import { handleError, isPopup as isPopupFn } from '../../../utils';
 import { SORT_BY, STORAGE_KEY } from '../../constants';
 import { EmptySearchResultsError, debouncedSearch } from '../../search/search';
 import { EmptySearchResultsCallout } from '../Callout/EmptySearchResults/EmptySearchResults';
@@ -86,7 +86,7 @@ export const SearchContainer = memo(function SearchContainer({
         if (error instanceof EmptySearchResultsError) {
           setErrorToDiplay(error);
         } else if (!(error instanceof AxiosCanceledError)) {
-          alertError(
+          handleError(
             error instanceof AxiosError ? 'Network error' : error + '',
             error,
           );
