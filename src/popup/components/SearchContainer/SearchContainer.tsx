@@ -1,4 +1,4 @@
-import { AxiosError, CanceledError as AxiosCanceledError } from 'axios';
+import { CanceledError as AxiosCanceledError, AxiosError } from 'axios';
 import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
 import {
   BooleanParam,
@@ -9,7 +9,7 @@ import {
 import { storage } from '../../../storage';
 import { alertError, isPopup as isPopupFn } from '../../../utils';
 import { SORT_BY, STORAGE_KEY } from '../../constants';
-import { debouncedSearch, EmptySearchResultsError } from '../../search/search';
+import { EmptySearchResultsError, debouncedSearch } from '../../search/search';
 import { EmptySearchResultsCallout } from '../Callout/EmptySearchResults/EmptySearchResults';
 import { SearchBox } from '../SearchBox/SearchBox';
 import { Sort } from '../Sorts/Sorts';
