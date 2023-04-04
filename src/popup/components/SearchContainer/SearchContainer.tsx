@@ -43,7 +43,7 @@ export const SearchContainer = memo(function SearchContainer({
     lastSearchResult?.searchResult,
   );
 
-  const [errorToDisplay, setErrorToDiplay] = useState<Error | undefined>(
+  const [errorToDisplay, setErrorToDisplay] = useState<Error | undefined>(
     undefined,
   );
   const trimmedQuery = query.trim();
@@ -78,7 +78,7 @@ export const SearchContainer = memo(function SearchContainer({
         });
       } catch (error) {
         if (error instanceof EmptySearchResultsError) {
-          setErrorToDiplay(error);
+          setErrorToDisplay(error);
           return;
         } else {
           handleError(
@@ -92,7 +92,7 @@ export const SearchContainer = memo(function SearchContainer({
 
       setSearchResult(searchResult);
       setUsedQuery(query);
-      if (searchResult.total > 0) setErrorToDiplay(undefined);
+      if (searchResult.total > 0) setErrorToDisplay(undefined);
     })();
     return () => {
       ignore = true;
