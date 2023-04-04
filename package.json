@@ -1,5 +1,5 @@
 {
-  "version": "2.1.2",
+  "version": "2.1.3",
   "scripts": {
     "dev": "pnpm run clean && ENABLES_SENTRY=false vite",
     "build": "pnpm run clean && vite build",
