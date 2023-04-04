@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useWorkspace } from '../../../hooks';
 import { storage } from '../../../storage';
-import { alertError, isPopup as isPopupFn } from '../../../utils';
+import { handleError, isPopup as isPopupFn } from '../../../utils';
 import { STORAGE_KEY } from '../../constants';
 import { QueryParamProvider } from '../QueryParamProvider/QueryParamProvider';
 import { SearchContainer } from '../SearchContainer/SearchContainer';
@@ -17,7 +17,7 @@ export const App = () => {
 
   useEffect(() => {
     if (error) {
-      alertError(error.message, error.cause);
+      handleError(error.message, error.cause);
       throw error.cause;
     }
   }, [error]);
