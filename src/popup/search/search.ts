@@ -1,4 +1,3 @@
-import { AxiosError } from 'axios';
 import { debounce } from 'throttle-debounce';
 import { axios } from '../../axios';
 import { NOTION_BASE_URL } from '../../constants';
@@ -123,37 +122,28 @@ export const search = async ({
       throw new Error(`Unknown sort option: ${sortBy}`);
   }
 
-  let res: SearchApiResponse;
-  try {
-    res = (
-      await axios.post<SearchApiResponse>(PATH, {
-        type: 'BlocksInSpace',
-        query: trimmedQuery,
-        spaceId: workspaceId,
-        limit: SEARCH_LIMIT,
-        filters: {
-          isDeletedOnly: false,
-          excludeTemplates: false,
-          isNavigableOnly: false,
-          requireEditPermissions: false,
-          ancestors: [],
-          createdBy: [],
-          editedBy: [],
-          lastEditedTime: {},
-          createdTime: {},
-          ...(filterByOnlyTitles ? { navigableBlockContentOnly: true } : {}),
-        },
-        sort: sortOptions,
-        source: 'quick_find_input_change',
-      })
-    ).data;
-  } catch (error) {
-    if (error instanceof AxiosError && error.response?.status === 401) {
-      throw new UnauthorizedError();
-    } else {
-      throw error;
-    }
-  }
+  const res = (
+    await axios.post<SearchApiResponse>(PATH, {
+      type: 'BlocksInSpace',
+      query: trimmedQuery,
+      spaceId: workspaceId,
+      limit: SEARCH_LIMIT,
+      filters: {
+        isDeletedOnly: false,
+        excludeTemplates: false,
+        isNavigableOnly: false,
+        requireEditPermissions: false,
+        ancestors: [],
+        createdBy: [],
+        editedBy: [],
+        lastEditedTime: {},
+        createdTime: {},
+        ...(filterByOnlyTitles ? { navigableBlockContentOnly: true } : {}),
+      },
+      sort: sortOptions,
+      source: 'quick_find_input_change',
+    })
+  ).data;
 
   // Known issue:
   //   In tab mode, the axios cache remains even if the cookie is set in another tab
