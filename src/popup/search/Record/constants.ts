@@ -37,12 +37,13 @@ export const BLOCK_TYPE = {
   CALLOUT: 'callout',
   HEADER: 'header',
   BULLETED_LIST: 'bulleted_list',
-  // // Also known as a "Template Button".
-  // // The title is the button text, and the children are the templates to clone.
-  // // https://github.com/jamalex/notion-py/blob/master/notion/block.py#L504
-  // // Official: https://www.notion.so/help/template-buttons
-  // FACTORY: 'factory',
-  // TRANSCLUSION_CONTAINER: 'transclusion_container',
+  // Also known as a "Template Button".
+  // The title is the button text, and the children are the templates to clone.
+  // https://github.com/jamalex/notion-py/blob/master/notion/block.py#L504
+  // Official: https://www.notion.so/help/template-buttons
+  FACTORY: 'factory',
+  TRANSCLUSION_CONTAINER: 'transclusion_container',
+  EXTERNAL_OBJECT_INSTANCE_PAGE: 'external_object_instance_page',
 } as const;
 
 export const BLOCK_TYPE_MAP = Object.fromEntries(
@@ -51,8 +52,12 @@ export const BLOCK_TYPE_MAP = Object.fromEntries(
   [key in valueOf<typeof BLOCK_TYPE>]: true;
 };
 
-// types の array を作るのが容易なので、topic ごとに独立した object を作る。
-export const BLOCK_TYPE_IS_COLLECTION_VIEW = {
+export const BLOCK_TYPE_COLLECTION_VIEW = {
   [BLOCK_TYPE.COLLECTION_VIEW_PAGE]: true,
   [BLOCK_TYPE.COLLECTION_VIEW]: true,
+};
+
+export const BLOCK_TYPE_IGNORE = {
+  [BLOCK_TYPE.TRANSCLUSION_CONTAINER]: true,
+  [BLOCK_TYPE.EXTERNAL_OBJECT_INSTANCE_PAGE]: true,
 };

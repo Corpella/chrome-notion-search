@@ -34,20 +34,21 @@ export const App = () => (
       <ul>
         <li>
           <a
-            href="mailto:cside.story@gmail.com"
+            href="https://chrome.google.com/webstore/detail/notion-search/nelmlmaelgfcpjgknkidapfnoddpjfee/support"
             target="_blank"
             rel="noreferrer"
           >
-            Contact
+            Support
           </a>
         </li>
         <li>
+          Enjoying Notion Search?{' '}
           <a
             href="https://chrome.google.com/webstore/detail/notion-search/nelmlmaelgfcpjgknkidapfnoddpjfee/reviews"
             target="_blank"
             rel="noreferrer"
           >
-            Rate This Extension
+            Rate this extension.
           </a>
         </li>
         <li>
@@ -56,9 +57,8 @@ export const App = () => (
             target="_blank"
             rel="noreferrer"
           >
-            Repository
-          </a>{' '}
-          (Patches welcome :D )
+            Source code
+          </a>
         </li>
       </ul>
     </div>

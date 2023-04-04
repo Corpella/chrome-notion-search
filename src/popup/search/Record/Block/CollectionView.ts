@@ -1,11 +1,11 @@
 import { Collection } from '../Collection';
-import { BLOCK_TYPE_IS_COLLECTION_VIEW } from '../constants';
+import { BLOCK_TYPE_COLLECTION_VIEW } from '../constants';
 import { Block } from './Block';
 
 export const isCollectionView = (
   block: SearchApi.Block,
 ): block is SearchApi.BlockCollectionView => {
-  return Object.hasOwn(BLOCK_TYPE_IS_COLLECTION_VIEW, block.type);
+  return Object.hasOwn(BLOCK_TYPE_COLLECTION_VIEW, block.type);
 };
 
 // combines collection view page and collection view

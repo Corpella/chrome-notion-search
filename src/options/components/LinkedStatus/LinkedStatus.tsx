@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useWorkspace } from '../../../hooks';
-import { alertError } from '../../../utils';
+import { handleError } from '../../../utils';
 
 export const LinkedStatus = () => {
   const {
@@ -13,7 +13,7 @@ export const LinkedStatus = () => {
 
   useEffect(() => {
     if (error) {
-      alertError(error.message, error.cause);
+      handleError(error.message, error.cause);
       throw error.cause;
     }
   }, [error]);

@@ -2,7 +2,6 @@
 // ========================================
 // search options
 // ========================================
-export const SEARCH_LIMIT = 50;
 export const MATCH_TAG = 'gzkNfoUU';
 
 export const SORT_BY = {

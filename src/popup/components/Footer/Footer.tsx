@@ -3,14 +3,15 @@ import { Tooltip } from 'react-tooltip';
 import 'react-tooltip/dist/react-tooltip.css';
 import { LocalResourceLink } from '../../../components/LocalResourceLink';
 import { isPopup as isPopupFn } from '../../../utils';
-import { SEARCH_LIMIT } from '../../constants';
 import './styles.pcss';
 
 export const Footer = ({
   total,
+  countPerPage,
   showsSummary,
 }: {
   total: number;
+  countPerPage: number;
   showsSummary: boolean;
 }) => {
   const isPopup = useMemo(isPopupFn, []);
@@ -22,10 +23,10 @@ export const Footer = ({
   }, []);
 
   const summaryHtml =
-    total > SEARCH_LIMIT
+    total > countPerPage
       ? chrome.i18n.getMessage('summaryOfResultOverLimit', [
           total.toLocaleString(),
-          SEARCH_LIMIT.toLocaleString(),
+          countPerPage.toLocaleString(),
         ])
       : chrome.i18n.getMessage('summaryOfResult', total.toLocaleString());
 
@@ -49,20 +50,20 @@ export const Footer = ({
             <LocalResourceLink href={nonPopupUrl} target="_blank">
               <img
                 src={chrome.runtime.getURL('images/open-in-new-tab.png')}
-                id="open-in-new-tab"
+                data-tooltip-id="open-in-new-tab"
               />
             </LocalResourceLink>
-            <Tooltip anchorId="open-in-new-tab" content="Open in new tab" />
+            <Tooltip id="open-in-new-tab" content="Open in new tab" />
           </>
         )}
         <>
           <LocalResourceLink href={optionsPage} target="_blank">
             <img
               src={chrome.runtime.getURL('images/settings.svg')}
-              id="open-options"
+              data-tooltip-id="open-options"
             />
           </LocalResourceLink>
-          <Tooltip anchorId="open-options" content="Open options" />
+          <Tooltip id="open-options" content="Open options" />
         </>
       </div>
     </div>
