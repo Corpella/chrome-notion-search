@@ -1,5 +1,5 @@
 import { BLOCK_TYPE, TABLE_TYPE } from '../constants';
-import { BasicBlock } from './Basic';
+import { BasicBlock, IgnoreBlockTypeError } from './Basic';
 
 const BLOCK: SearchApi.Block = {
   id: 'block-id',
@@ -57,15 +57,6 @@ describe('canBeDir', () => {
   test.each([
     { input: BLOCK_TYPE.PAGE, expected: true },
     { input: BLOCK_TYPE.COLUMN_LIST, expected: false },
-    { input: BLOCK_TYPE.COLUMN, expected: false },
-    { input: BLOCK_TYPE.TOGGLE, expected: false },
-    { input: BLOCK_TYPE.CALLOUT, expected: false },
-    { input: BLOCK_TYPE.HEADER, expected: false },
-    { input: BLOCK_TYPE.SUB_HEADER, expected: false },
-    { input: BLOCK_TYPE.SUB_SUB_HEADER, expected: false },
-    { input: BLOCK_TYPE.TO_DO, expected: false },
-    { input: BLOCK_TYPE.NUMBERED_LIST, expected: false },
-    { input: BLOCK_TYPE.TEXT, expected: false },
   ])('$input → $expected', ({ input, expected }) => {
     jest.spyOn(console, 'error').mockImplementation(() => {});
     expect(
@@ -76,6 +67,37 @@ describe('canBeDir', () => {
         },
       }).canBeDir(),
     ).toBe(expected);
+  });
+});
+
+describe('ignore some block types', () => {
+  test.each([
+    { input: BLOCK_TYPE.EXTERNAL_OBJECT_INSTANCE_PAGE, expected: true },
+    { input: BLOCK_TYPE.TRANSCLUSION_CONTAINER, expected: true },
+    { input: BLOCK_TYPE.PAGE, expected: false },
+    { input: BLOCK_TYPE.COLUMN, expected: false },
+    { input: BLOCK_TYPE.TOGGLE, expected: false },
+    { input: BLOCK_TYPE.CALLOUT, expected: false },
+    { input: BLOCK_TYPE.HEADER, expected: false },
+    { input: BLOCK_TYPE.SUB_HEADER, expected: false },
+    { input: BLOCK_TYPE.SUB_SUB_HEADER, expected: false },
+    { input: BLOCK_TYPE.TO_DO, expected: false },
+    { input: BLOCK_TYPE.NUMBERED_LIST, expected: false },
+    { input: BLOCK_TYPE.TEXT, expected: false },
+    { input: BLOCK_TYPE.FACTORY, expected: false },
+  ])('$input → $expected', ({ input, expected }) => {
+    const fn = () =>
+      new BasicBlock({
+        block: {
+          ...BLOCK,
+          type: input,
+        },
+      });
+    if (expected) {
+      expect(fn).toThrow(IgnoreBlockTypeError);
+    } else {
+      expect(fn).not.toThrow();
+    }
   });
 });
 
