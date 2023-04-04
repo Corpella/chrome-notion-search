@@ -3,7 +3,7 @@ import { axios } from '../../axios';
 import { NOTION_BASE_URL } from '../../constants';
 import { storage } from '../../storage';
 
-import { ICON_TYPE, SEARCH_LIMIT, SORT_BY, STORAGE_KEY } from '../constants';
+import { ICON_TYPE, SORT_BY, STORAGE_KEY } from '../constants';
 import { IgnoreBlockTypeError } from './Record/Block/Basic';
 import { Block } from './Record/Block/Block';
 import { Record } from './Record/Record';
@@ -11,6 +11,7 @@ import { createBlock, createRecord } from './Record/factory';
 
 const PATH = '/search';
 const DEBOUNCE_TIME = 150;
+const SEARCH_LIMIT = 50;
 const ICON_WIDTH = 40;
 const TEXT_NO_TITLE = 'Untitled';
 
@@ -152,6 +153,8 @@ export const search = async ({
 
   const recordMap = res.recordMap;
   const items: Item[] = [];
+  let total = res.total;
+
   for (const item of res.results) {
     let block: Block | undefined = undefined;
 
@@ -186,6 +189,7 @@ export const search = async ({
 
       items.push(result);
     } catch (error) {
+      total--;
       if (!(error instanceof IgnoreBlockTypeError)) {
         console.error(error, {
           id,
@@ -199,7 +203,7 @@ export const search = async ({
 
   const searchResult: SearchResult = {
     items,
-    total: res.total,
+    total,
   };
 
   if (savesToStorage) {

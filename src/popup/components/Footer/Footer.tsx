@@ -3,14 +3,15 @@ import { Tooltip } from 'react-tooltip';
 import 'react-tooltip/dist/react-tooltip.css';
 import { LocalResourceLink } from '../../../components/LocalResourceLink';
 import { isPopup as isPopupFn } from '../../../utils';
-import { SEARCH_LIMIT } from '../../constants';
 import './styles.pcss';
 
 export const Footer = ({
   total,
+  countPerPage,
   showsSummary,
 }: {
   total: number;
+  countPerPage: number;
   showsSummary: boolean;
 }) => {
   const isPopup = useMemo(isPopupFn, []);
@@ -22,10 +23,10 @@ export const Footer = ({
   }, []);
 
   const summaryHtml =
-    total > SEARCH_LIMIT
+    total > countPerPage
       ? chrome.i18n.getMessage('summaryOfResultOverLimit', [
           total.toLocaleString(),
-          SEARCH_LIMIT.toLocaleString(),
+          countPerPage.toLocaleString(),
         ])
       : chrome.i18n.getMessage('summaryOfResult', total.toLocaleString());
 

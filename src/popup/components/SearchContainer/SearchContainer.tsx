@@ -119,7 +119,8 @@ export const SearchContainer = memo(function SearchContainer({
         <Sort sortBy={sortBy} setSortBy={setSortBy} />
         <Items items={searchResult?.items || []} query={usedQuery} />
         <Footer
-          total={searchResult?.total || 0}
+          total={searchResult?.total ?? 0}
+          countPerPage={searchResult?.items?.length ?? 0}
           showsSummary={!!searchResult && usedQuery.trim().length > 0}
         />
       </main>
