@@ -37,11 +37,11 @@ export const BLOCK_TYPE = {
   CALLOUT: 'callout',
   HEADER: 'header',
   BULLETED_LIST: 'bulleted_list',
+  FACTORY: 'factory',
   // // Also known as a "Template Button".
   // // The title is the button text, and the children are the templates to clone.
   // // https://github.com/jamalex/notion-py/blob/master/notion/block.py#L504
   // // Official: https://www.notion.so/help/template-buttons
-  // FACTORY: 'factory',
   // TRANSCLUSION_CONTAINER: 'transclusion_container',
 } as const;
 
