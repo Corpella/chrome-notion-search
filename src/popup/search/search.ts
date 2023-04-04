@@ -4,9 +4,10 @@ import { NOTION_BASE_URL } from '../../constants';
 import { storage } from '../../storage';
 
 import { ICON_TYPE, SEARCH_LIMIT, SORT_BY, STORAGE_KEY } from '../constants';
+import { IgnoreBlockTypeError } from './Record/Block/Basic';
 import { Block } from './Record/Block/Block';
-import { createBlock, createRecord } from './Record/factory';
 import { Record } from './Record/Record';
+import { createBlock, createRecord } from './Record/factory';
 
 const PATH = '/search';
 const DEBOUNCE_TIME = 150;
@@ -185,12 +186,14 @@ export const search = async ({
 
       items.push(result);
     } catch (error) {
-      console.error(error, {
-        id,
-        item: JSON.stringify(item),
-        block: JSON.stringify(block),
-      });
-      console.info({ item, block, recordMap });
+      if (!(error instanceof IgnoreBlockTypeError)) {
+        console.error(error, {
+          id,
+          item: JSON.stringify(item),
+          block: JSON.stringify(block),
+        });
+        console.info({ item, block, recordMap });
+      }
     }
   }
 

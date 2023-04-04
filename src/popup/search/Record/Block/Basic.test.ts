@@ -1,5 +1,5 @@
 import { BLOCK_TYPE, TABLE_TYPE } from '../constants';
-import { BasicBlock } from './Basic';
+import { BasicBlock, IgnoreBlockTypeError } from './Basic';
 
 const BLOCK: SearchApi.Block = {
   id: 'block-id',
@@ -57,6 +57,24 @@ describe('canBeDir', () => {
   test.each([
     { input: BLOCK_TYPE.PAGE, expected: true },
     { input: BLOCK_TYPE.COLUMN_LIST, expected: false },
+  ])('$input → $expected', ({ input, expected }) => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+    expect(
+      new BasicBlock({
+        block: {
+          ...BLOCK,
+          type: input,
+        },
+      }).canBeDir(),
+    ).toBe(expected);
+  });
+});
+
+describe('ignore some block types', () => {
+  test.each([
+    { input: BLOCK_TYPE.EXTERNAL_OBJECT_INSTANCE_PAGE, expected: true },
+    { input: BLOCK_TYPE.TRANSCLUSION_CONTAINER, expected: true },
+    { input: BLOCK_TYPE.PAGE, expected: false },
     { input: BLOCK_TYPE.COLUMN, expected: false },
     { input: BLOCK_TYPE.TOGGLE, expected: false },
     { input: BLOCK_TYPE.CALLOUT, expected: false },
@@ -68,15 +86,18 @@ describe('canBeDir', () => {
     { input: BLOCK_TYPE.TEXT, expected: false },
     { input: BLOCK_TYPE.FACTORY, expected: false },
   ])('$input → $expected', ({ input, expected }) => {
-    jest.spyOn(console, 'error').mockImplementation(() => {});
-    expect(
+    const fn = () =>
       new BasicBlock({
         block: {
           ...BLOCK,
           type: input,
         },
-      }).canBeDir(),
-    ).toBe(expected);
+      });
+    if (expected) {
+      expect(fn).toThrow(IgnoreBlockTypeError);
+    } else {
+      expect(fn).not.toThrow();
+    }
   });
 });
 

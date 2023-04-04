@@ -6,9 +6,9 @@ import { TABLE_TYPE } from './constants';
 import { Record } from './Record';
 import { Team } from './Team';
 
-export class RecordError extends Error {}
-export class RecordNotFoundError extends RecordError {}
-export class RecordTypeError extends RecordError {}
+class RecordError extends Error {}
+class RecordNotFoundError extends RecordError {}
+class RecordTypeError extends RecordError {}
 
 // NOTE: ログ指針：
 //  - id, tableType は上流で吐いてるのでここでは吐かない
