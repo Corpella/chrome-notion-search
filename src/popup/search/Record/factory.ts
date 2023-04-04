@@ -3,9 +3,12 @@ import { Block } from './Block/Block';
 import { CollectionViewBlock, isCollectionView } from './Block/CollectionView';
 import { Collection } from './Collection';
 import { TABLE_TYPE } from './constants';
-import { RecordError, RecordNotFoundError, RecordTypeError } from './errors';
 import { Record } from './Record';
 import { Team } from './Team';
+
+export class RecordError extends Error {}
+export class RecordNotFoundError extends RecordError {}
+export class RecordTypeError extends RecordError {}
 
 // NOTE: ログ指針：
 //  - id, tableType は上流で吐いてるのでここでは吐かない

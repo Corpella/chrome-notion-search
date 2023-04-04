@@ -42,7 +42,6 @@ export const BLOCK_TYPE = {
   // // The title is the button text, and the children are the templates to clone.
   // // https://github.com/jamalex/notion-py/blob/master/notion/block.py#L504
   // // Official: https://www.notion.so/help/template-buttons
-  // TRANSCLUSION_CONTAINER: 'transclusion_container',
 } as const;
 
 export const BLOCK_TYPE_MAP = Object.fromEntries(
@@ -52,7 +51,7 @@ export const BLOCK_TYPE_MAP = Object.fromEntries(
 };
 
 // types の array を作るのが容易なので、topic ごとに独立した object を作る。
-export const BLOCK_TYPE_IS_COLLECTION_VIEW = {
+export const BLOCK_TYPE_COLLECTION_VIEW = {
   [BLOCK_TYPE.COLLECTION_VIEW_PAGE]: true,
   [BLOCK_TYPE.COLLECTION_VIEW]: true,
 };

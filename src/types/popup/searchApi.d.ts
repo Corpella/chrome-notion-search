@@ -44,7 +44,7 @@ declare namespace SearchApi {
   };
 
   type _BlockTypeCollectionView =
-    keyof typeof import('../../popup/search/Record/constants').BLOCK_TYPE_IS_COLLECTION_VIEW;
+    keyof typeof import('../../popup/search/Record/constants').BLOCK_TYPE_COLLECTION_VIEW;
 
   type BlockBasic = _BlockBase & {
     type: Exclude<BlockType, _BlockTypeCollectionView>;
