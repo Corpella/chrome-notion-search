@@ -1,8 +1,8 @@
-import MergeableError from './MergeableError';
+import CustomError from './CustomError';
 
 const PREFIX = 'Chrome storage error:';
 
-export class ChromeStorageError extends MergeableError {}
+export class ChromeStorageError extends CustomError {}
 
 export const storage = {
   get: async (key: string) => {
