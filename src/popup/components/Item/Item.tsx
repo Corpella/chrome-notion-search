@@ -1,5 +1,4 @@
-import React, { useMemo } from 'react';
-import { isPopup as isPopupFn } from '../../../utils';
+import React from 'react';
 import { ICON_TYPE } from '../../constants';
 import './styles.pcss';
 import { setHighlight } from './utils';
