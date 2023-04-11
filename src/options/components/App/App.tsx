@@ -2,6 +2,7 @@ import React from 'react';
 import '../../../common.css';
 import { LocalResourceLink } from '../../../components/LocalResourceLink';
 import { LinkedStatus } from '../LinkedStatus/LinkedStatus';
+import { DisplaySettings } from '../DisplaySettings/DisplaySettings';
 
 export const App = () => (
   <div className="container">
@@ -26,6 +27,8 @@ export const App = () => (
             </p>
           </td>
         </tr>
+        <DisplaySettings />
+
       </tbody>
     </table>
     <hr className="mt-5" />
