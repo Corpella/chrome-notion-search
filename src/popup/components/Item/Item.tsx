@@ -3,6 +3,7 @@ import { isPopup as isPopupFn } from '../../../utils';
 import { ICON_TYPE } from '../../constants';
 import './styles.pcss';
 import { setHighlight } from './utils';
+import { storage } from '../../../storage';
 
 const getType = (block: SearchApi.Block) =>
   'debug-block-' + block.type.replaceAll('_', '-');
@@ -21,13 +22,11 @@ export default function Item({
       <>{icon.value}</>
     ) : (
       <img
-        className={`page-icon ${
-          icon.value.match(/^https?:\/\/.+\.svg/) ? 'svg' : ''
-        }`}
+        className={`page-icon ${icon.value.match(/^https?:\/\/.+\.svg/) ? 'svg' : ''
+          }`}
         src={icon.value}
       />
     );
-  const isPopup = useMemo(isPopupFn, []);
 
   let dirElements: React.ReactNode | undefined = undefined;
   if (dirs.length > 0) {
@@ -65,9 +64,15 @@ export default function Item({
     >
       <a
         className="url"
-        {...(isPopup && { target: '_blank' })}
-        href={url}
-        onClick={() => console.info(block)}
+        href="javascript:void(0)"
+        onClick={async (e) => {
+          e.preventDefault()
+          const target = await storage.get("display")
+          console.info(block)
+          // TODO: maybe add a section in settings for popup size customization?
+          window.open(url, target, target === 'popup' ? 'width=800,height=1000;top:0px' : undefined)
+        }
+        }
       >
         <div className="page-icon-container">
           <div className="page-icon-wrapper">{iconElement}</div>
