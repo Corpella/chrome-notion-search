@@ -1,3 +1,4 @@
+import CustomError from '../../../CustomError';
 import { BasicBlock } from './Block/Basic';
 import { Block } from './Block/Block';
 import { CollectionViewBlock, isCollectionView } from './Block/CollectionView';
@@ -6,9 +7,21 @@ import { TABLE_TYPE } from './constants';
 import { Record } from './Record';
 import { Team } from './Team';
 
-class RecordError extends Error {}
-class RecordNotFoundError extends RecordError {}
-class RecordTypeError extends RecordError {}
+class RecordError extends CustomError {
+  static {
+    this.prototype.name = 'RecordError';
+  }
+}
+class RecordNotFoundError extends RecordError {
+  static {
+    this.prototype.name = 'RecordNotFoundError';
+  }
+}
+class RecordTypeError extends RecordError {
+  static {
+    this.prototype.name = 'RecordTypeError';
+  }
+}
 
 // NOTE: ログ指針：
 //  - id, tableType は上流で吐いてるのでここでは吐かない

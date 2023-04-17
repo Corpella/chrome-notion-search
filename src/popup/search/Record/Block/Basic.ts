@@ -1,8 +1,13 @@
+import CustomError from '../../../../CustomError';
 import { BLOCK_TYPE, BLOCK_TYPE_IGNORE, BLOCK_TYPE_MAP } from '../constants';
 import { Block } from './Block';
 import { isCollectionView } from './CollectionView';
 
-export class IgnoreBlockTypeError extends Error {}
+export class IgnoreBlockTypeError extends CustomError {
+  static {
+    this.prototype.name = 'IgnoreBlockTypeError';
+  }
+}
 
 export class BasicBlock extends Block {
   public type: SearchApi.BlockBasic['type'];

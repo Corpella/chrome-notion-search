@@ -1,8 +1,8 @@
 import { debounce } from 'throttle-debounce';
+import CustomError from '../../CustomError';
 import { axios } from '../../axios';
 import { NOTION_BASE_URL } from '../../constants';
 import { storage } from '../../storage';
-
 import { ICON_TYPE, SORT_BY, STORAGE_KEY } from '../constants';
 import { IgnoreBlockTypeError } from './Record/Block/Basic';
 import { Block } from './Record/Block/Block';
@@ -15,8 +15,16 @@ const SEARCH_LIMIT = 50;
 const ICON_WIDTH = 40;
 const TEXT_NO_TITLE = 'Untitled';
 
-export class EmptySearchResultsError extends Error {}
-export class UnauthorizedError extends Error {}
+export class EmptySearchResultsError extends CustomError {
+  static {
+    this.prototype.name = 'EmptySearchResultsError';
+  }
+}
+export class UnauthorizedError extends CustomError {
+  static {
+    this.prototype.name = 'UnauthorizedError';
+  }
+}
 
 const getDir = (
   dirs: Dir[],
@@ -123,6 +131,7 @@ export const search = async ({
       throw new Error(`Unknown sort option: ${sortBy}`);
   }
 
+  // TODO: /search doesn't return 401 … 😓
   const res = (
     await axios.post<SearchApiResponse>(PATH, {
       type: 'BlocksInSpace',
