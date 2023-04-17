@@ -16,9 +16,6 @@ dependencies:
   axios-cache-interceptor:
     specifier: ^0.10.7
     version: 0.10.7
-  compare-versions:
-    specifier: ^6.0.0-rc.1
-    version: 6.0.0-rc.1
   extensible-custom-error:
     specifier: ^0.0.7
     version: 0.0.7
@@ -2230,10 +2227,6 @@ packages:
     engines: {node: '>= 0.8'}
     dependencies:
       delayed-stream: 1.0.0
-
-  /compare-versions@6.0.0-rc.1:
-    resolution: {integrity: sha512-cFhkjbGY1jLFWIV7KegECbfuyYPxSGvgGkdkfM+ibboQDoPwg2FRHm5BSNTOApiauRBzJIQH7qvOJs2sW5ueKQ==}
-    dev: false
 
   /concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
