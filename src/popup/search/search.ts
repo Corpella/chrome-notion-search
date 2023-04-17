@@ -131,6 +131,7 @@ export const search = async ({
       throw new Error(`Unknown sort option: ${sortBy}`);
   }
 
+  // TODO: /search doesn't return 401 … 😓
   const res = (
     await axios.post<SearchApiResponse>(PATH, {
       type: 'BlocksInSpace',
