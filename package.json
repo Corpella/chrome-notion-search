@@ -65,7 +65,7 @@
     "stylelint-no-unsupported-browser-features": "^6.0.1",
     "stylelint-value-no-unknown-custom-properties": "^4.0.0",
     "throttle-debounce": "https://github.com/Cside/throttle-debounce",
-    "ts-jest": "^29.0.3",
+    "ts-jest": "^29.1.0",
     "typescript": "^5.0.x",
     "vite": "^4.0.4"
   },
