@@ -1,6 +1,8 @@
+import { AxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { axios } from '../../../../axios';
 import { NOTION_BASE_URL } from '../../../../constants';
+import { handleError } from '../../../../utils';
 import './styles.pcss';
 
 // TODO: test
@@ -13,9 +15,16 @@ export const EmptySearchResultsCallout = ({
 
   useEffect(() => {
     (async () => {
-      // 見せられなくても致命的でないのでエラーハンドリングしない
-      const res = (await axios.post<GetWorkspacesApiResponse>('/getSpaces'))
-        .data;
+      let res: GetWorkspacesApiResponse;
+      try {
+        res = (await axios.post<GetWorkspacesApiResponse>('/getSpaces')).data;
+      } catch (error) {
+        handleError(
+          error instanceof AxiosError ? 'Network error' : error + '',
+          error,
+        );
+        throw error; // TODO
+      }
 
       // TODO: userId 手に入れたら改修の必要あり
       let isFound = false;
