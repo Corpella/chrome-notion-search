@@ -47,6 +47,7 @@ export const Footer = ({
       <div className="icons">
         {isPopup && (
           <>
+            {/* TODO: Fix me if popup=true become deprecated */}
             <LocalResourceLink href={nonPopupUrl} target="_blank">
               <img
                 src={chrome.runtime.getURL('images/open-in-new-tab.png')}
@@ -57,12 +58,12 @@ export const Footer = ({
           </>
         )}
         <>
-          <LocalResourceLink href={optionsPage} target="_blank">
+          <a href={optionsPage} target="_blank" rel="noreferrer">
             <img
               src={chrome.runtime.getURL('images/settings.svg')}
               data-tooltip-id="open-options"
             />
-          </LocalResourceLink>
+          </a>
           <Tooltip id="open-options" content="Open options" />
         </>
       </div>
