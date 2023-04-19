@@ -1,5 +1,5 @@
 import { BLOCK_TYPE, TABLE_TYPE } from '../constants';
-import { BasicBlock, IgnoreBlockTypeError } from './Basic';
+import { BasicBlock, IgnoredBlockTypeError } from './Basic';
 
 const BLOCK: SearchApi.Block = {
   id: 'block-id',
@@ -94,7 +94,7 @@ describe('ignore some block types', () => {
         },
       });
     if (expected) {
-      expect(fn).toThrow(IgnoreBlockTypeError);
+      expect(fn).toThrow(IgnoredBlockTypeError);
     } else {
       expect(fn).not.toThrow();
     }
