@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 import {
   BooleanParam,
   StringParam,
@@ -7,7 +7,7 @@ import {
   withDefault,
 } from 'use-query-params';
 import { storage } from '../../../storage';
-import { handleError, isPopup as isPopupFn } from '../../../utils';
+import { handleError, isPopup } from '../../../utils';
 import { SORT_BY, STORAGE_KEY } from '../../constants';
 import { EmptySearchResultsError, debouncedSearch } from '../../search/search';
 import { EmptySearchResultsCallout } from '../Callout/EmptySearchResults/EmptySearchResults';
@@ -48,7 +48,6 @@ export const SearchContainer = memo(function SearchContainer({
   );
   const trimmedQuery = query.trim();
   const hasQuery = trimmedQuery.length > 0;
-  const isPopup = useMemo(isPopupFn, []);
   const isFirstRendering = useRef(true);
 
   // search
@@ -73,7 +72,7 @@ export const SearchContainer = memo(function SearchContainer({
               ? SORT_BY.CREATED // LAST_EDITED is also fine
               : sortBy,
           filterByOnlyTitles,
-          savesToStorage: isPopup && hasQuery,
+          savesToStorage: isPopup() && hasQuery,
           workspaceId: workspace.id,
         });
       } catch (error) {
@@ -124,5 +123,5 @@ export const SearchContainer = memo(function SearchContainer({
     </main>
   );
 
-  return isPopup ? main : <div className="container">{main}</div>;
+  return isPopup() ? main : <div className="container">{main}</div>;
 });

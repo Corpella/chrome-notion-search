@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import { Tooltip } from 'react-tooltip';
 import 'react-tooltip/dist/react-tooltip.css';
 import { LocalResourceLink } from '../../../components/LocalResourceLink';
-import { isPopup as isPopupFn } from '../../../utils';
+import { isPopup } from '../../../utils';
 import './styles.pcss';
 
 export const Footer = ({
@@ -14,8 +14,6 @@ export const Footer = ({
   countPerPage: number;
   showsSummary: boolean;
 }) => {
-  const isPopup = useMemo(isPopupFn, []);
-
   const optionsPage = useMemo(() => {
     const page = chrome.runtime.getManifest().options_page;
     if (!page) throw new Error('options_page is defined in manifest.json');
@@ -45,7 +43,7 @@ export const Footer = ({
         ></div>
       )}
       <div className="icons">
-        {isPopup && (
+        {isPopup() && (
           <>
             {/* TODO: Fix me if popup=true become deprecated */}
             <LocalResourceLink href={nonPopupUrl} target="_blank">

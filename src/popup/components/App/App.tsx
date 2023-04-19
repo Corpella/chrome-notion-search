@@ -1,7 +1,7 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useWorkspace } from '../../../hooks';
 import { storage } from '../../../storage';
-import { handleError, isPopup as isPopupFn } from '../../../utils';
+import { handleError, isPopup } from '../../../utils';
 import { STORAGE_KEY } from '../../constants';
 import { QueryParamProvider } from '../QueryParamProvider/QueryParamProvider';
 import { SearchContainer } from '../SearchContainer/SearchContainer';
@@ -16,8 +16,6 @@ export const App = () => {
   const [lastSearchResult, setLastSearchResult] = useState<
     LastSearchResult | undefined
   >(undefined);
-  const isPopup = useMemo(isPopupFn, []);
-
   useEffect(() => {
     if (error) {
       handleError(error.message, error.cause);
@@ -34,7 +32,7 @@ export const App = () => {
         await selectAndLinkWorkspace();
       }
 
-      if (workspace && isPopup) {
+      if (workspace && isPopup()) {
         const lastSearchResult = (await storage.get(
           `${workspace.id}-${STORAGE_KEY.LAST_SEARCHED}`,
         )) as LastSearchResult | undefined; // TODO: type guard
