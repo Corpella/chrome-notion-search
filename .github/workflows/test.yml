@@ -29,19 +29,17 @@ jobs:
 
       - uses: actions/cache@v3
         id: node_modules_cache_id
-        env:
-          cache-name: cache-node-modules
         with:
           path: 'node_modules'
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-build-${{ hashFiles('pnpm-lock.yaml') }}
 
       - if: ${{ steps.node_modules_cache_id.outputs.cache-hit != 'true' }}
-        run: yarn install --immutable --immutable-cache --check-cache # same as `npm ci`
+        run: npm ci
 
       - if: ${{ github.event_name == 'pull_request_target' }}
-        run: yarn run build
+        run: npm run build
 
-      - run: yarn run check
+      - run: npm run check
 
       # https://action-slack.netlify.app/usage/
       - uses: 8398a7/action-slack@v3
