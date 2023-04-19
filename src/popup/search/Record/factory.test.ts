@@ -101,10 +101,15 @@ describe('createRecord()', () => {
         createRecord(BLOCK_ID, TABLE_TYPE.WORKSPACE, RECORD_MAP),
       ).toThrow(/^Can't handle a workspace/));
 
-    test("block-id doesn't exist", () =>
+    test("block id doesn't exist", () =>
       expect(() =>
         createRecord("id that doesn't exist", TABLE_TYPE.BLOCK, RECORD_MAP),
-      ).toThrow(/^Block .+ is not found/));
+      ).toThrow(/^Block is not found/));
+
+    test("team id doesn't exist", () =>
+      expect(() =>
+        createRecord("id that doesn't exist", TABLE_TYPE.TEAM, RECORD_MAP),
+      ).toThrow(/^Team is not found/));
 
     test("collection id doesn't exist (collection)", () =>
       expect(() =>
@@ -113,7 +118,7 @@ describe('createRecord()', () => {
           TABLE_TYPE.COLLECTION,
           RECORD_MAP,
         ),
-      ).toThrow(/^Collection .+ is not found/));
+      ).toThrow(/^Collection is not found/));
 
     for (const type of [
       BLOCK_TYPE.COLLECTION_VIEW,
@@ -133,9 +138,7 @@ describe('createRecord()', () => {
               },
             },
           }),
-        ).toThrow(
-          /block.collection_id exists, but collection_id:.+ is not found/,
-        );
+        ).toThrow(/^block.collection_id exists, but collection is not found/);
       });
     }
   });
