@@ -103,7 +103,7 @@ export const SearchContainer = memo(function SearchContainer({
     };
   }, [trimmedQuery, sortBy, filterByOnlyTitles]);
 
-  const main = (
+  return (
     <main>
       <SearchBox
         query={query}
@@ -128,6 +128,4 @@ export const SearchContainer = memo(function SearchContainer({
       />
     </main>
   );
-
-  return isPopup() ? main : <div className="container">{main}</div>;
 });
