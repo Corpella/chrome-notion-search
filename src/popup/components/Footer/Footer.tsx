@@ -1,21 +1,20 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Tooltip } from 'react-tooltip';
 import 'react-tooltip/dist/react-tooltip.css';
-import { LocalResourceLink } from '../../../components/LocalResourceLink';
-import { isPopup as isPopupFn } from '../../../utils';
+import { isPopup } from '../../../utils';
 import './styles.pcss';
 
 export const Footer = ({
   total,
   countPerPage,
   showsSummary,
+  currentUrl,
 }: {
   total: number;
   countPerPage: number;
   showsSummary: boolean;
+  currentUrl: string;
 }) => {
-  const isPopup = useMemo(isPopupFn, []);
-
   const optionsPage = useMemo(() => {
     const page = chrome.runtime.getManifest().options_page;
     if (!page) throw new Error('options_page is defined in manifest.json');
@@ -30,12 +29,6 @@ export const Footer = ({
         ])
       : chrome.i18n.getMessage('summaryOfResult', total.toLocaleString());
 
-  const nonPopupUrl = useCallback(() => {
-    const url = new URL(location.href);
-    url.searchParams.delete('popup');
-    return url.toString();
-  }, []);
-
   return (
     <div className="footer">
       {showsSummary && (
@@ -45,15 +38,14 @@ export const Footer = ({
         ></div>
       )}
       <div className="icons">
-        {isPopup && (
+        {isPopup() && (
           <>
-            {/* TODO: Fix me if popup=true become deprecated */}
-            <LocalResourceLink href={nonPopupUrl} target="_blank">
+            <a href={currentUrl} target="_blank" rel="noreferrer">
               <img
                 src={chrome.runtime.getURL('images/open-in-new-tab.png')}
                 data-tooltip-id="open-in-new-tab"
               />
-            </LocalResourceLink>
+            </a>
             <Tooltip id="open-in-new-tab" content="Open in new tab" />
           </>
         )}

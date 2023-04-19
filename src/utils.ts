@@ -18,7 +18,8 @@ export const handleError = (message: string, error: unknown) => {
   alert(message);
 };
 
-export const isPopup = () => new URL(location.href).searchParams.has('popup');
+const POPUP_MEDIA_QUERY = '(width <= 670px)';
+export const isPopup = () => window.matchMedia(POPUP_MEDIA_QUERY).matches;
 
 export const handleClickLocalResource = async ({
   event,
