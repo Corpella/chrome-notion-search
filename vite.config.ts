@@ -2,6 +2,7 @@ import type { ManifestV3Export } from '@crxjs/vite-plugin';
 import { crx } from '@crxjs/vite-plugin';
 import react from '@vitejs/plugin-react-swc';
 import fs from 'fs';
+import postcssCustomMedia from 'postcss-custom-media';
 import postcssNested from 'postcss-nested';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { defineConfig, PluginOption } from 'vite';
@@ -33,7 +34,7 @@ export default defineConfig({
   ],
   css: {
     postcss: {
-      plugins: [postcssNested],
+      plugins: [postcssNested, postcssCustomMedia],
     },
   },
 });

@@ -99,31 +99,30 @@ export const SearchContainer = memo(function SearchContainer({
     };
   }, [trimmedQuery, sortBy, filterByOnlyTitles]);
 
-  return (
-    <div className={`container ${isPopup ? 'is-popup' : ''}`}>
-      <main>
-        <SearchBox
-          query={query}
-          setQuery={setQuery}
-          workspaceName={workspace.name}
-          hasLastSearchQuery={!!lastSearchResult}
-        />
-        {errorToDisplay &&
-          errorToDisplay instanceof EmptySearchResultsError && (
-            <EmptySearchResultsCallout workspace={workspace} />
-          )}
-        <Filter
-          filterByOnlyTitles={filterByOnlyTitles}
-          setFilterOnlyTitles={setFilterOnlyTitles}
-        />
-        <Sort sortBy={sortBy} setSortBy={setSortBy} />
-        <Items items={searchResult?.items || []} query={usedQuery} />
-        <Footer
-          total={searchResult?.total ?? 0}
-          countPerPage={searchResult?.items?.length ?? 0}
-          showsSummary={!!searchResult && usedQuery.trim().length > 0}
-        />
-      </main>
-    </div>
+  const main = (
+    <main>
+      <SearchBox
+        query={query}
+        setQuery={setQuery}
+        workspaceName={workspace.name}
+        hasLastSearchQuery={!!lastSearchResult}
+      />
+      {errorToDisplay && errorToDisplay instanceof EmptySearchResultsError && (
+        <EmptySearchResultsCallout workspace={workspace} />
+      )}
+      <Filter
+        filterByOnlyTitles={filterByOnlyTitles}
+        setFilterOnlyTitles={setFilterOnlyTitles}
+      />
+      <Sort sortBy={sortBy} setSortBy={setSortBy} />
+      <Items items={searchResult?.items || []} query={usedQuery} />
+      <Footer
+        total={searchResult?.total ?? 0}
+        countPerPage={searchResult?.items?.length ?? 0}
+        showsSummary={!!searchResult && usedQuery.trim().length > 0}
+      />
+    </main>
   );
+
+  return isPopup ? main : <div className="container">{main}</div>;
 });
