@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import React, { memo, useEffect, useRef, useState } from 'react';
+import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
 import {
   BooleanParam,
   StringParam,
@@ -49,6 +49,11 @@ export const SearchContainer = memo(function SearchContainer({
   const trimmedQuery = query.trim();
   const hasQuery = trimmedQuery.length > 0;
   const isFirstRendering = useRef(true);
+
+  const currentUrl = useMemo(
+    () => location.href,
+    [query, sortBy, filterByOnlyTitles],
+  );
 
   // search
   useEffect(() => {
@@ -119,6 +124,7 @@ export const SearchContainer = memo(function SearchContainer({
         total={searchResult?.total ?? 0}
         countPerPage={searchResult?.items?.length ?? 0}
         showsSummary={!!searchResult && usedQuery.trim().length > 0}
+        currentUrl={currentUrl}
       />
     </main>
   );
