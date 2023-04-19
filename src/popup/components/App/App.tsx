@@ -5,6 +5,9 @@ import { handleError, isPopup as isPopupFn } from '../../../utils';
 import { STORAGE_KEY } from '../../constants';
 import { QueryParamProvider } from '../QueryParamProvider/QueryParamProvider';
 import { SearchContainer } from '../SearchContainer/SearchContainer';
+
+import '../../../common.css';
+import './customProperties.css';
 import './styles.pcss';
 
 export const App = () => {
