@@ -1,9 +1,9 @@
 import CustomError from '../../../../CustomError';
-import { BLOCK_TYPE, BLOCK_TYPE_IGNORE, BLOCK_TYPE_MAP } from '../constants';
+import { BLOCK_TYPE, BLOCK_TYPE_IGNORED, BLOCK_TYPE_MAP } from '../constants';
 import { Block } from './Block';
 import { isCollectionView } from './CollectionView';
 
-export class IgnoreBlockTypeError extends CustomError {
+export class IgnoredBlockTypeError extends CustomError {
   static {
     this.prototype.name = 'IgnoreBlockTypeError';
   }
@@ -19,8 +19,8 @@ export class BasicBlock extends Block {
       throw new Error(
         `Collection view. type: ${block.type}. block: ${JSON.stringify(block)}`,
       );
-    } else if (Object.hasOwn(BLOCK_TYPE_IGNORE, block.type)) {
-      throw new IgnoreBlockTypeError();
+    } else if (Object.hasOwn(BLOCK_TYPE_IGNORED, block.type)) {
+      throw new IgnoredBlockTypeError(`Ignored block type: ${block.type}`);
     } else if (!BLOCK_TYPE_MAP[block.type]) {
       throw new Error(
         `Unknown block type: ${block.type}. block: ${JSON.stringify(block)}`,
