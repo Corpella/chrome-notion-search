@@ -38,7 +38,7 @@ export const App = () => (
             target="_blank"
             rel="noreferrer"
           >
-            Support
+            Contact the publisher
           </a>
         </li>
         <li>
