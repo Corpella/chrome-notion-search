@@ -27,6 +27,8 @@ jobs:
         with:
           node-version: 18
 
+      - uses: pnpm/action-setup@v2.2.2
+
       - uses: actions/cache@v3
         id: node_modules_cache_id
         with:
@@ -34,12 +36,12 @@ jobs:
           key: ${{ runner.os }}-build-${{ hashFiles('pnpm-lock.yaml') }}
 
       - if: ${{ steps.node_modules_cache_id.outputs.cache-hit != 'true' }}
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - if: ${{ github.event_name == 'pull_request_target' }}
-        run: npm run build
+        run: pnpm run build
 
-      - run: npm run check
+      - run: pnpm run check
 
       # https://action-slack.netlify.app/usage/
       - uses: 8398a7/action-slack@v3
