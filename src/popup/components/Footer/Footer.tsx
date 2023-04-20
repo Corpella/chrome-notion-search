@@ -30,7 +30,7 @@ export const Footer = ({
       : chrome.i18n.getMessage('summaryOfResult', total.toLocaleString());
 
   return (
-    <div className="footer">
+    <footer>
       {showsSummary && (
         <div
           className="summary"
@@ -59,6 +59,6 @@ export const Footer = ({
           <Tooltip id="open-options" content="Open options" />
         </>
       </div>
-    </div>
+    </footer>
   );
 };
