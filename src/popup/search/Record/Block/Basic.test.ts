@@ -74,6 +74,7 @@ describe('ignore some block types', () => {
   test.each([
     { input: BLOCK_TYPE.EXTERNAL_OBJECT_INSTANCE_PAGE, expected: true },
     { input: BLOCK_TYPE.TRANSCLUSION_CONTAINER, expected: true },
+    { input: BLOCK_TYPE.ALIAS, expected: true },
     { input: BLOCK_TYPE.PAGE, expected: false },
     { input: BLOCK_TYPE.COLUMN, expected: false },
     { input: BLOCK_TYPE.TOGGLE, expected: false },
