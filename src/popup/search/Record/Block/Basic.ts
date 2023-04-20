@@ -19,7 +19,9 @@ export class BasicBlock extends Block {
       throw new Error(
         `Collection view. type: ${block.type}. block: ${JSON.stringify(block)}`,
       );
-    } else if (Object.hasOwn(BLOCK_TYPE_IGNORED, block.type)) {
+    } else if (
+      BLOCK_TYPE_IGNORED[block.type as keyof typeof BLOCK_TYPE_IGNORED]
+    ) {
       throw new IgnoredBlockTypeError(`Ignored block type: ${block.type}`);
     } else if (!BLOCK_TYPE_MAP[block.type]) {
       throw new Error(
