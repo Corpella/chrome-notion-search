@@ -74,6 +74,7 @@
     "@sentry/tracing": "^7.39.0",
     "axios": "^0.27.2",
     "axios-cache-interceptor": "^0.10.7",
+    "bootstrap": "^5.2.3",
     "extensible-custom-error": "^0.0.7",
     "lodash.escaperegexp": "^4.1.2",
     "react": "^18.2.0",

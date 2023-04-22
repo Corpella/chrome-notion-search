@@ -3,6 +3,8 @@ import '../../../common.css';
 import { LocalResourceLink } from '../../../components/LocalResourceLink';
 import { LinkedStatus } from '../LinkedStatus/LinkedStatus';
 
+import 'bootstrap/dist/css/bootstrap.css';
+
 export const App = () => (
   <div className="container-md">
     <h1 className="py-2">Options</h1>
