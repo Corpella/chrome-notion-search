@@ -38,8 +38,8 @@ dependencies:
     specifier: ^1.1.0
     version: 1.1.0
   react-tooltip:
-    specifier: ^5.7.5
-    version: 5.7.5(react-dom@18.2.0)(react@18.2.0)
+    specifier: ^5.11.1
+    version: 5.11.1(react-dom@18.2.0)(react@18.2.0)
   use-query-params:
     specifier: ^2.1.2
     version: 2.1.2(react-dom@18.2.0)(react@18.2.0)
@@ -5305,8 +5305,8 @@ packages:
     engines: {node: '>=0.12.0'}
     dev: false
 
-  /react-tooltip@5.7.5(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-hAr3AMSF47AuycEnI+ShwloYHTtVrftocXCfEjWAFvvAVpNGE9wredZs6NlUE1JtpOXIOe/oJUpoYj925v5hLQ==}
+  /react-tooltip@5.11.1(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-+2a/DvmOlPQd5e1f3s32E/+vv4Tv4UmPxZfCyeVr4BeY3SRCEKGHiE36jH+UtqxSuRP9TKviwmhow4gNDRXCMQ==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'

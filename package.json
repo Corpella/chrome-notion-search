@@ -81,7 +81,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.1",
     "react-string-replace": "^1.1.0",
-    "react-tooltip": "^5.7.5",
+    "react-tooltip": "^5.11.1",
     "use-query-params": "^2.1.2"
   },
   "license": "MIT"
