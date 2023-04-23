@@ -11,11 +11,14 @@ import './customProperties.css';
 import './styles.pcss';
 
 export const App = () => {
-  const { workspace, hasGotWorkspace, error, selectAndLinkWorkspace } =
+  const { workspace, isLoading, error, selectAndLinkWorkspace } =
     useWorkspace();
+
   const [lastSearchResult, setLastSearchResult] = useState<
     LastSearchResult | undefined
   >(undefined);
+
+  // FIXME: これどうにかならんの
   useEffect(() => {
     if (error) {
       handleError(error.message, error.cause);
@@ -25,7 +28,10 @@ export const App = () => {
 
   useEffect(() => {
     (async () => {
-      if (!hasGotWorkspace) return;
+      // FIXME: hasGot いらなくね？
+      // つか、やるにしても isLoading とかじゃねぇの...
+      // 時間差リトライが前提の data fetching 、どういう API が適切なのだろうか .......
+      if (isLoading) return;
 
       if (!workspace) {
         console.info('link a workspace automatically');
@@ -33,6 +39,7 @@ export const App = () => {
       }
 
       if (workspace && isPopup()) {
+        // ⭐
         const lastSearchResult = (await storage.get(
           `${workspace.id}-${STORAGE_KEY.LAST_SEARCHED}`,
         )) as LastSearchResult | undefined; // TODO: type guard
@@ -40,8 +47,10 @@ export const App = () => {
         if (lastSearchResult) setLastSearchResult(lastSearchResult);
       }
     })();
-  }, [hasGotWorkspace]);
+  }, [isLoading]);
 
+  // ⭐が終わるまで、そもそも描画しなければ良いんじゃない？
+  // そうすれば if(isFirst) return; みたいなややこしいことしなくて済む。
   if (workspace)
     return (
       <QueryParamProvider>

@@ -17,9 +17,9 @@ describe('useWorkspace', () => {
           expected: {
             workspace: dummyWorkspace1,
             error: undefined,
-            // renderHook し終わった時点で hasGotWorkspace = true なので
+            // renderHook し終わった時点で isLoading = false なので
             // (act()で囲まなくても)、false の検証はできない。。
-            hasGotWorkspace: true,
+            isLoading: false,
           },
         },
         {
@@ -28,7 +28,7 @@ describe('useWorkspace', () => {
           expected: {
             workspace: undefined,
             error: undefined,
-            hasGotWorkspace: true,
+            isLoading: false,
           },
         },
       ])('$name', async ({ input, expected }) => {
@@ -53,7 +53,7 @@ describe('useWorkspace', () => {
       expect(current).toEqual(
         expect.objectContaining({
           workspace: undefined,
-          hasGotWorkspace: true,
+          isLoading: false,
           error: expect.any(Error),
         }),
       );
