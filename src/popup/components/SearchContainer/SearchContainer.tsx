@@ -16,6 +16,7 @@ import { Sort } from '../Sorts/Sorts';
 import { Filter } from './../Filters/Filters';
 import { Footer } from './../Footer/Footer';
 import { Items } from './../Items/Items';
+
 import './styles.pcss';
 
 export const SearchContainer = memo(function SearchContainer({
@@ -46,6 +47,7 @@ export const SearchContainer = memo(function SearchContainer({
   const [errorToDisplay, setErrorToDisplay] = useState<Error | undefined>(
     undefined,
   );
+
   const trimmedQuery = query.trim();
   const hasQuery = trimmedQuery.length > 0;
   const isFirstRendering = useRef(true);
@@ -55,7 +57,6 @@ export const SearchContainer = memo(function SearchContainer({
     [query, sortBy, filterByOnlyTitles],
   );
 
-  // search
   useEffect(() => {
     let ignore = false;
 

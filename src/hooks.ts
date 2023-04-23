@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import {
-  getLinkedWorkspace,
   LinkWorkspaceResult,
+  getLinkedWorkspace,
   selectAndLinkWorkspace,
   unlinkWorkspace,
 } from './workspaces';
@@ -9,7 +9,7 @@ import {
 export const useWorkspace = () => {
   const [workspace, setWorkspace] = useState<Workspace | undefined>(undefined);
   const [error, setError] = useState<Error | undefined>(undefined);
-  const [hasGotWorkspace, setHasGotWorkspace] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -24,18 +24,18 @@ export const useWorkspace = () => {
           }),
         );
       }
-      setHasGotWorkspace(true);
+      setIsLoading(false);
     })();
   }, []);
 
   return {
     workspace,
-    // useEffect(() => { if (error) ... }, [error]); のように使う。 useEffect 省略不可
     error,
-    hasGotWorkspace,
+    isLoading,
     selectAndLinkWorkspace: async () => {
       let result: LinkWorkspaceResult;
       try {
+        setIsLoading(true);
         result = await selectAndLinkWorkspace();
       } catch (error) {
         setError(
@@ -44,8 +44,10 @@ export const useWorkspace = () => {
             { cause: error },
           ),
         );
+        setIsLoading(false);
         return;
       }
+      setIsLoading(false);
       if (result.hasAborted) {
         return;
       }

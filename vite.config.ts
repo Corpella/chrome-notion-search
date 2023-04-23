@@ -48,9 +48,9 @@ function getEnv<T>(name: string): T | undefined {
 
 function getHtmlFiles(dir: string) {
   return Object.fromEntries(
-    fs.readdirSync(dir).map((html) => {
-      html = `${dir}/${html}`;
-      return [html.replace(/\.html$/, ''), html];
+    fs.readdirSync(`pages/${dir}`).map((html) => {
+      html = `pages/${dir}/${html}`;
+      return [html, html];
     }),
   );
 }
