@@ -16,7 +16,7 @@ export const LinkedStatus = () => {
       handleError(error.message, error.cause);
       throw error.cause;
     }
-  }, [error]);
+  }, [isLoading]);
 
   return (
     <tr>

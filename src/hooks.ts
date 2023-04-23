@@ -30,12 +30,12 @@ export const useWorkspace = () => {
 
   return {
     workspace,
-    // useEffect(() => { if (error) ... }, [error]); のように使う。 useEffect 省略不可
     error,
     isLoading,
     selectAndLinkWorkspace: async () => {
       let result: LinkWorkspaceResult;
       try {
+        setIsLoading(true);
         result = await selectAndLinkWorkspace();
       } catch (error) {
         setError(
@@ -44,8 +44,10 @@ export const useWorkspace = () => {
             { cause: error },
           ),
         );
+        setIsLoading(false);
         return;
       }
+      setIsLoading(false);
       if (result.hasAborted) {
         return;
       }
