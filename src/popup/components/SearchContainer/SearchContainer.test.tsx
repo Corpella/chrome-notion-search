@@ -4,7 +4,7 @@ import { $, userEventSetup } from '../../../../test/helpers';
 import { axios } from '../../../axios';
 import { SORT_BY } from '../../constants';
 import * as emptySearchResultsCallout from '../Callout/EmptySearchResults/EmptySearchResults';
-import { QueryParamProvider } from '../QueryParamProvider/QueryParamProvider';
+import { Provider } from '../Provider/Provider';
 import { SearchContainer } from '../SearchContainer/SearchContainer';
 
 beforeEach(() => {
@@ -42,12 +42,12 @@ test('filter options', async () => {
     .mockResolvedValue({ data: { results: [], total: 0 } });
 
   await renderAndWaitEffect(
-    <QueryParamProvider>
+    <Provider>
       <SearchContainer
         workspace={{ id: 'space-id', name: 'space-name' }}
         lastSearchResult={undefined}
       />
-    </QueryParamProvider>,
+    </Provider>,
   );
 
   const elem = $('.test-filter-only-title');
@@ -82,12 +82,12 @@ test('sort options', async () => {
     .mockResolvedValue({ data: { results: [], total: 0 } });
 
   await renderAndWaitEffect(
-    <QueryParamProvider>
+    <Provider>
       <SearchContainer
         workspace={{ id: 'space-id', name: 'space-name' }}
         lastSearchResult={undefined}
       />
-    </QueryParamProvider>,
+    </Provider>,
   );
 
   const input = $<HTMLInputElement>('.query');

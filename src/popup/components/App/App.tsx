@@ -3,7 +3,7 @@ import { useWorkspace } from '../../../hooks';
 import { storage } from '../../../storage';
 import { handleError, isPopup } from '../../../utils';
 import { STORAGE_KEY } from '../../constants';
-import { QueryParamProvider } from '../QueryParamProvider/QueryParamProvider';
+import { Provider } from '../Provider/Provider';
 import { SearchContainer } from '../SearchContainer/SearchContainer';
 
 import '../../../common.css';
@@ -46,12 +46,12 @@ export const App = () => {
 
   if (workspace && hasInitialized)
     return (
-      <QueryParamProvider>
+      <Provider>
         <SearchContainer
           workspace={workspace}
           lastSearchResult={lastSearchResult}
         />
-      </QueryParamProvider>
+      </Provider>
     );
 
   return (
