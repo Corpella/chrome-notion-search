@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useWorkspace } from '../../../hooks';
 import { storage } from '../../../storage';
 import { handleError, isPopup } from '../../../utils';
@@ -10,10 +11,10 @@ import '../../../common.css';
 import './customProperties.css';
 import './styles.pcss';
 
-export const App = () => {
+const Main = () => {
   const { workspace, isLoading, error, selectAndLinkWorkspace } =
     useWorkspace();
-
+  const [, setSearchParams] = useSearchParams();
   const [hasInitialized, setHasInitialized] = useState(false);
   const [lastSearchResult, setLastSearchResult] = useState<
     LastSearchResult | undefined
@@ -38,7 +39,13 @@ export const App = () => {
           `${workspace.id}-${STORAGE_KEY.LAST_SEARCHED}`,
         )) as LastSearchResult | undefined; // TODO: type guard
 
-        if (lastSearchResult) setLastSearchResult(lastSearchResult);
+        if (lastSearchResult) {
+          setLastSearchResult(lastSearchResult);
+          setSearchParams((params) => {
+            params.set('query', lastSearchResult.query);
+            return params;
+          });
+        }
       }
       setHasInitialized(true);
     })();
@@ -46,12 +53,10 @@ export const App = () => {
 
   if (workspace && hasInitialized)
     return (
-      <Provider>
-        <SearchContainer
-          workspace={workspace}
-          lastSearchResult={lastSearchResult}
-        />
-      </Provider>
+      <SearchContainer
+        workspace={workspace}
+        lastSearchResult={lastSearchResult}
+      />
     );
 
   return (
@@ -67,3 +72,9 @@ export const App = () => {
     </div>
   );
 };
+
+export const App = () => (
+  <Provider>
+    <Main />
+  </Provider>
+);
