@@ -59,7 +59,7 @@ export const EmptySearchResultsCallout = ({
   if (pageId === null) return null;
 
   const helpsUrl = chrome.runtime.getURL(
-    'helps/empty-search-results.html?' +
+    'pages/helps/empty-search-results.html?' +
       new URLSearchParams({
         primary_workspace_name: workspace.name,
         primary_workspace_url: `${NOTION_BASE_URL}/${pageId.replaceAll(

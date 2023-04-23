@@ -6,7 +6,7 @@ export const LocalResourceLink = ({
   target,
   children,
 }: {
-  href: string | (() => string);
+  href: string;
   target?: '_blank';
   children: ReactNode;
 }) => {
@@ -16,7 +16,7 @@ export const LocalResourceLink = ({
       title="title"
       onClick={(event) => {
         return handleClickLocalResource({
-          url: typeof href === 'function' ? href() : href,
+          url: href,
           event,
           ...(target ? { target } : {}),
         });

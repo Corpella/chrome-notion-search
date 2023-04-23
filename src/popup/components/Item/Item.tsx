@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react';
-import { isPopup as isPopupFn } from '../../../utils';
+import React from 'react';
+import { isPopup } from '../../../utils';
 import { ICON_TYPE } from '../../constants';
 import './styles.pcss';
 import { setHighlight } from './utils';
@@ -27,7 +27,6 @@ export default function Item({
         src={icon.value}
       />
     );
-  const isPopup = useMemo(isPopupFn, []);
 
   let dirElements: React.ReactNode | undefined = undefined;
   if (dirs.length > 0) {
@@ -65,7 +64,7 @@ export default function Item({
     >
       <a
         className="url"
-        {...(isPopup && { target: '_blank' })}
+        {...(isPopup() && { target: '_blank' })}
         href={url}
         onClick={() => console.info(block)}
       >

@@ -17,7 +17,9 @@
         "importFrom": ["src/popup/components/App/customProperties.css"]
       }
     ],
-    "csstree/validator": true,
+    "csstree/validator": {
+      "ignoreAtrules": ["custom-media"]
+    },
     "plugin/declaration-block-no-ignored-properties": true,
     "plugin/no-unsupported-browser-features": true
   }
