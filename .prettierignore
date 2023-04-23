@@ -1,3 +1,4 @@
 /public/css/**/*
 /dist/
 /pnpm-lock.yaml
+/README.md

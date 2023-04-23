@@ -21,7 +21,9 @@ pnpm run build
 
 [/releases](https://github.com/Cside/chrome-notion-search/releases)
 
-## How to Contribute
+## How to Send Pull Requests
+
+⚠️ If you have a feature request, please discuss it with me on `/issues` before writing your code.
 
 Create a branch from `develop` and make a pull request to `develop` .
 
