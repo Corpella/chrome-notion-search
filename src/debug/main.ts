@@ -1,5 +1,7 @@
 import { BasicBlock } from '../popup/search/Record/Block/Basic';
 
+import 'bootstrap/dist/css/bootstrap.css';
+
 const block = new BasicBlock({
   block: JSON.parse(prompt('json') || ''),
 });

@@ -5,7 +5,7 @@ import { handleError } from '../../../utils';
 export const LinkedStatus = () => {
   const {
     workspace,
-    hasGotWorkspace,
+    isLoading,
     error,
     selectAndLinkWorkspace,
     unlinkWorkspace,
@@ -16,13 +16,13 @@ export const LinkedStatus = () => {
       handleError(error.message, error.cause);
       throw error.cause;
     }
-  }, [error]);
+  }, [isLoading]);
 
   return (
     <tr>
       <th className="table-secondary">Connection Status</th>
       <td>
-        {hasGotWorkspace &&
+        {!isLoading &&
           (workspace ? (
             <>
               <p className="fs-5 text-success">✅ Connected to Notion</p>

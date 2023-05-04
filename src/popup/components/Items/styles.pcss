@@ -1,10 +1,11 @@
+@import url('../../customMediaQueries.css');
+
 .items {
-  box-sizing: border-box;
   max-height: calc(100vh - 225px);
   overflow-y: auto;
   overflow-wrap: anywhere;
 
-  .is-popup & {
+  @media (--popup-viewport) {
     max-height: 453px;
   }
 

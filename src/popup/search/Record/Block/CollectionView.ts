@@ -5,7 +5,7 @@ import { Block } from './Block';
 export const isCollectionView = (
   block: SearchApi.Block,
 ): block is SearchApi.BlockCollectionView => {
-  return Object.hasOwn(BLOCK_TYPE_COLLECTION_VIEW, block.type);
+  return !!BLOCK_TYPE_COLLECTION_VIEW[block.type];
 };
 
 // combines collection view page and collection view

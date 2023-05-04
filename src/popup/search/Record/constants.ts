@@ -44,6 +44,7 @@ export const BLOCK_TYPE = {
   FACTORY: 'factory',
   TRANSCLUSION_CONTAINER: 'transclusion_container',
   EXTERNAL_OBJECT_INSTANCE_PAGE: 'external_object_instance_page',
+  ALIAS: 'alias',
 } as const;
 
 export const BLOCK_TYPE_MAP = Object.fromEntries(
@@ -52,12 +53,17 @@ export const BLOCK_TYPE_MAP = Object.fromEntries(
   [key in valueOf<typeof BLOCK_TYPE>]: true;
 };
 
-export const BLOCK_TYPE_COLLECTION_VIEW = {
+export const BLOCK_TYPE_COLLECTION_VIEW: {
+  [key in valueOf<typeof BLOCK_TYPE>]?: true;
+} = {
   [BLOCK_TYPE.COLLECTION_VIEW_PAGE]: true,
   [BLOCK_TYPE.COLLECTION_VIEW]: true,
 };
 
-export const BLOCK_TYPE_IGNORE = {
+export const BLOCK_TYPE_IGNORED: {
+  [key in valueOf<typeof BLOCK_TYPE>]?: true;
+} = {
   [BLOCK_TYPE.TRANSCLUSION_CONTAINER]: true,
   [BLOCK_TYPE.EXTERNAL_OBJECT_INSTANCE_PAGE]: true,
+  [BLOCK_TYPE.ALIAS]: true,
 };

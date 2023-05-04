@@ -7,7 +7,7 @@ import {
   withDefault,
 } from 'use-query-params';
 import { storage } from '../../../storage';
-import { handleError, isPopup as isPopupFn } from '../../../utils';
+import { handleError, isPopup } from '../../../utils';
 import { SORT_BY, STORAGE_KEY } from '../../constants';
 import { EmptySearchResultsError, debouncedSearch } from '../../search/search';
 import { EmptySearchResultsCallout } from '../Callout/EmptySearchResults/EmptySearchResults';
@@ -16,6 +16,7 @@ import { Sort } from '../Sorts/Sorts';
 import { Filter } from './../Filters/Filters';
 import { Footer } from './../Footer/Footer';
 import { Items } from './../Items/Items';
+
 import './styles.pcss';
 
 export const SearchContainer = memo(function SearchContainer({
@@ -46,12 +47,16 @@ export const SearchContainer = memo(function SearchContainer({
   const [errorToDisplay, setErrorToDisplay] = useState<Error | undefined>(
     undefined,
   );
+
   const trimmedQuery = query.trim();
   const hasQuery = trimmedQuery.length > 0;
-  const isPopup = useMemo(isPopupFn, []);
   const isFirstRendering = useRef(true);
 
-  // search
+  const currentUrl = useMemo(
+    () => location.href,
+    [query, sortBy, filterByOnlyTitles],
+  );
+
   useEffect(() => {
     let ignore = false;
 
@@ -73,7 +78,7 @@ export const SearchContainer = memo(function SearchContainer({
               ? SORT_BY.CREATED // LAST_EDITED is also fine
               : sortBy,
           filterByOnlyTitles,
-          savesToStorage: isPopup && hasQuery,
+          savesToStorage: isPopup() && hasQuery,
           workspaceId: workspace.id,
         });
       } catch (error) {
@@ -100,30 +105,28 @@ export const SearchContainer = memo(function SearchContainer({
   }, [trimmedQuery, sortBy, filterByOnlyTitles]);
 
   return (
-    <div className={`container ${isPopup ? 'is-popup' : ''}`}>
-      <main>
-        <SearchBox
-          query={query}
-          setQuery={setQuery}
-          workspaceName={workspace.name}
-          hasLastSearchQuery={!!lastSearchResult}
-        />
-        {errorToDisplay &&
-          errorToDisplay instanceof EmptySearchResultsError && (
-            <EmptySearchResultsCallout workspace={workspace} />
-          )}
-        <Filter
-          filterByOnlyTitles={filterByOnlyTitles}
-          setFilterOnlyTitles={setFilterOnlyTitles}
-        />
-        <Sort sortBy={sortBy} setSortBy={setSortBy} />
-        <Items items={searchResult?.items || []} query={usedQuery} />
-        <Footer
-          total={searchResult?.total ?? 0}
-          countPerPage={searchResult?.items?.length ?? 0}
-          showsSummary={!!searchResult && usedQuery.trim().length > 0}
-        />
-      </main>
-    </div>
+    <main>
+      <SearchBox
+        query={query}
+        setQuery={setQuery}
+        workspaceName={workspace.name}
+        hasLastSearchQuery={!!lastSearchResult}
+      />
+      {errorToDisplay && errorToDisplay instanceof EmptySearchResultsError && (
+        <EmptySearchResultsCallout workspace={workspace} />
+      )}
+      <Filter
+        filterByOnlyTitles={filterByOnlyTitles}
+        setFilterOnlyTitles={setFilterOnlyTitles}
+      />
+      <Sort sortBy={sortBy} setSortBy={setSortBy} />
+      <Items items={searchResult?.items || []} query={usedQuery} />
+      <Footer
+        total={searchResult?.total ?? 0}
+        countPerPage={searchResult?.items?.length ?? 0}
+        showsSummary={!!searchResult && usedQuery.trim().length > 0}
+        currentUrl={currentUrl}
+      />
+    </main>
   );
 });

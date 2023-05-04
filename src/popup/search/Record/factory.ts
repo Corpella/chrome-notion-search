@@ -40,7 +40,7 @@ export const createRecord = (
       const collection = recordMap.collection?.[id]?.value;
       if (!collection) {
         throw new RecordNotFoundError(
-          `Collection (id:${id}) is not found in recordMap.collection`,
+          `Collection is not found in recordMap.collection. id: ${id}`,
         );
       }
       return new Collection({ collection });
@@ -50,7 +50,7 @@ export const createRecord = (
       const team = recordMap.team?.[id]?.value;
       if (!team) {
         throw new RecordNotFoundError(
-          `Team (id:${id}) is not found in recordMap.team`,
+          `Team is not found in recordMap.team. id: ${id}`,
         );
       }
       return new Team({ team });
@@ -59,7 +59,7 @@ export const createRecord = (
       const block = recordMap.block[id]?.value;
       if (!block) {
         throw new RecordNotFoundError(
-          `Block (id:${id}) is not found in recordMap.block`,
+          `Block is not found in recordMap.block. id: ${id}`,
         );
       }
 
@@ -70,7 +70,8 @@ export const createRecord = (
           if (!collection) {
             throw new RecordNotFoundError(
               `block.collection_id exists, ` +
-                `but collection_id: ${block.collection_id} is not found in recordMap.collection. ` +
+                `but collection is not found in recordMap.collection. ` +
+                `collection_id: ${block.collection_id}, ` +
                 `block: ${JSON.stringify(block)}`,
             );
           }

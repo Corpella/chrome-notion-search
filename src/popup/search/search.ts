@@ -4,7 +4,7 @@ import { axios } from '../../axios';
 import { NOTION_BASE_URL } from '../../constants';
 import { storage } from '../../storage';
 import { ICON_TYPE, SORT_BY, STORAGE_KEY } from '../constants';
-import { IgnoreBlockTypeError } from './Record/Block/Basic';
+import { IgnoredBlockTypeError } from './Record/Block/Basic';
 import { Block } from './Record/Block/Block';
 import { Record } from './Record/Record';
 import { createBlock, createRecord } from './Record/factory';
@@ -131,6 +131,7 @@ export const search = async ({
       throw new Error(`Unknown sort option: ${sortBy}`);
   }
 
+  // TODO: /search doesn't return 401 … 😓
   const res = (
     await axios.post<SearchApiResponse>(PATH, {
       type: 'BlocksInSpace',
@@ -198,7 +199,7 @@ export const search = async ({
       items.push(result);
     } catch (error) {
       total--;
-      if (!(error instanceof IgnoreBlockTypeError)) {
+      if (!(error instanceof IgnoredBlockTypeError)) {
         console.error(error, {
           id,
           item: JSON.stringify(item),
